@@ -24,7 +24,12 @@
 #define INCLUDED_InterfaceC_h_GUID_D90BBAA6_AD62_499D_C023_2F6ED8987C17
 
 /* Internal Includes */
+#if !defined(__ANDROID__)
 #include <osvr/ClientKit/Export.h>
+#else
+#define OSVR_CLIENTKIT_EXPORT __attribute__((visibility("default")))
+#endif
+
 #include <osvr/Util/APIBaseC.h>
 #include <osvr/Util/ReturnCodesC.h>
 #include <osvr/Util/AnnotationMacrosC.h>

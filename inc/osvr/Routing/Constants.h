@@ -20,7 +20,11 @@
 #define INCLUDED_Constants_h_GUID_1A7E9AA8_23B3_409B_4589_A15870E9473D
 
 // Internal Includes
+#if !defined(__ANDROID__)
 #include <osvr/Routing/Export.h>
+#else
+#define OSVR_ROUTING_EXPORT __attribute__((visibility("default")))
+#endif
 
 // Library/third-party includes
 // - none

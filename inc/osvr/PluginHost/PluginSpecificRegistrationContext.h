@@ -20,7 +20,11 @@
 #define INCLUDED_PluginSpecificRegistrationContext_h_GUID_8C008527_0BF6_408F_3C73_4FE76B77D856
 
 // Internal Includes
+#if !defined(__ANDROID__)
 #include <osvr/PluginHost/Export.h>
+#else
+#define OSVR_PLUGINHOST_EXPORT __attribute__((visibility("default")))
+#endif
 #include <osvr/PluginHost/RegistrationContext_fwd.h>
 #include <osvr/PluginHost/PluginSpecificRegistrationContext_fwd.h>
 #include <osvr/PluginHost/PluginRegPtr.h>

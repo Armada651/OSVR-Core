@@ -22,6 +22,7 @@
 // Internal Includes
 #include <osvr/PluginHost/RegistrationContext.h>
 #include "PluginSpecificRegistrationContextImpl.h"
+
 #include <osvr/Util/ResetPointerList.h>
 
 #if !defined(__ANDROID__)
@@ -42,7 +43,6 @@
 #include <libfunctionality/LoadPlugin.h>
 #include <boost/range/adaptor/map.hpp>
 #include <boost/range/adaptor/reversed.hpp>
-#include <boost/range/algorithm/for_each.hpp>
 
 // Standard includes
 #include <algorithm>
@@ -53,8 +53,10 @@ namespace pluginhost {
 
     RegistrationContext::~RegistrationContext() {
         // Reset the plugins in reverse order.
-        util::resetPointerRange(m_regMap | boost::adaptors::map_values |
-                                boost::adaptors::reversed);
+        for (auto &ptr : m_regMap | boost::adaptors::map_values |
+                             boost::adaptors::reversed) {
+            ptr.reset();
+        }
     }
 
     void RegistrationContext::loadPlugin(std::string const &pluginName) {
@@ -86,10 +88,9 @@ namespace pluginhost {
     }
 
     void RegistrationContext::triggerHardwareDetect() {
-        boost::for_each(m_regMap | boost::adaptors::map_values,
-                        [](PluginRegPtr &pluginPtr) {
+        for (auto &pluginPtr : m_regMap | boost::adaptors::map_values) {
             pluginPtr->triggerHardwareDetectCallbacks();
-        });
+        }
     }
 
     void

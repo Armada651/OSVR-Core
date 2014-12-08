@@ -20,7 +20,13 @@
 #define INCLUDED_Connection_h_GUID_61C65986_E2C9_498F_59F0_8EFC712BA183
 
 // Internal Includes
+
+#if !defined(__ANDROID__)
 #include <osvr/Connection/Export.h>
+#else
+#define OSVR_CONNECTION_EXPORT __attribute__((visibility("default")))
+#endif
+
 #include <osvr/Connection/MessageTypePtr.h>
 #include <osvr/Connection/ConnectionDevicePtr.h>
 #include <osvr/Connection/ConnectionPtr.h>

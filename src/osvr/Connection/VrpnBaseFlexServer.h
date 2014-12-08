@@ -20,7 +20,20 @@
 #define INCLUDED_VrpnBaseFlexServer_h_GUID_BA2E66A9_F0F3_4BBE_5248_62C5B7E5CBDE
 
 // Internal Includes
+#if !defined(__ANDROID__)
 #include <osvr/Util/Verbosity.h>
+#else
+#include <osvr/Util/MacroToolsC.h>
+#if defined(OSVR_UTIL_DEV_VERBOSE) && !defined(OSVR_DEV_VERBOSE_DISABLE)
+#include <iostream>
+#define OSVR_DEV_VERBOSE(X)                                                    \
+    OSVR_UTIL_MULTILINE_BEGIN std::cout << "[OSVR] " << X << std::endl;        \
+    OSVR_UTIL_MULTILINE_END
+#else
+#define OSVR_DEV_VERBOSE(X) OSVR_UTIL_MULTILINE_BEGIN OSVR_UTIL_MULTILINE_END
+#endif
+#endif
+
 #include <osvr/Util/TimeValue.h>
 
 // Library/third-party includes

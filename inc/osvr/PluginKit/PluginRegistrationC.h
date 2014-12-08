@@ -25,7 +25,12 @@
 #define INCLUDED_PluginRegistrationC_h_GUID_C019DFA9_5B54_4791_B0A4_040EA20501BA
 
 /* Internal Includes */
+#if !defined(__ANDROID__)
 #include <osvr/PluginKit/Export.h>
+#else
+#define OSVR_PLUGINKIT_EXPORT __attribute__((visibility("default")))
+#endif
+
 #include <osvr/PluginKit/CommonC.h>
 #include <osvr/Util/PluginCallbackTypesC.h>
 #include <osvr/Util/AnnotationMacrosC.h>

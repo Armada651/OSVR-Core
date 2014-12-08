@@ -21,7 +21,11 @@
 
 // Internal Includes
 #include <osvr/Routing/PathTree_fwd.h>
+#if !defined(__ANDROID__)
 #include <osvr/Routing/Export.h>
+#else
+#define OSVR_ROUTING_EXPORT __attribute__((visibility("default")))
+#endif
 #include <osvr/Routing/PathNode_fwd.h>
 
 // Library/third-party includes

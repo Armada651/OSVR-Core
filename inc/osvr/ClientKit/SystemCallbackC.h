@@ -24,7 +24,11 @@
 #define INCLUDED_SystemCallbackC_h_GUID_543F3F04_343E_4389_08A0_DEA988EC23F7
 
 /* Internal Includes */
+#if !defined(__ANDROID__)
 #include <osvr/ClientKit/Export.h>
+#else
+#define OSVR_CLIENTKIT_EXPORT __attribute__((visibility("default")))
+#endif
 #include <osvr/Util/APIBaseC.h>
 #include <osvr/Util/ReturnCodesC.h>
 #include <osvr/Util/AnnotationMacrosC.h>

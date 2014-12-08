@@ -20,7 +20,11 @@
 #define INCLUDED_PathNode_fwd_h_GUID_3160EFE4_EC7A_4187_5263_ED3303384F7B
 
 // Internal Includes
+#if !defined(__ANDROID__)
 #include <osvr/Routing/Export.h>
+#else
+#define OSVR_ROUTING_EXPORT __attribute__((visibility("default")))
+#endif
 #include <osvr/Routing/PathElementTypes_fwd.h>
 #include <osvr/Util/TreeNode_fwd.h>
 

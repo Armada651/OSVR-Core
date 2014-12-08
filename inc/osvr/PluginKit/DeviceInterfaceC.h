@@ -24,7 +24,11 @@
 #define INCLUDED_DeviceInterfaceC_h_GUID_8B82B108_1B20_4D80_9FE5_C31E424E3652
 
 /* Internal Includes */
+#if !defined(__ANDROID__)
 #include <osvr/PluginKit/Export.h>
+#else
+#define OSVR_PLUGINKIT_EXPORT __attribute__((visibility("default")))
+#endif
 #include <osvr/PluginKit/CommonC.h>
 #include <osvr/Util/DeviceCallbackTypesC.h>
 #include <osvr/Util/AnnotationMacrosC.h>

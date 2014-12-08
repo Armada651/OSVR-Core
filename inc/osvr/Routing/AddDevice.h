@@ -20,7 +20,11 @@
 #define INCLUDED_AddDevice_h_GUID_DEA28469_5227_44AD_1972_94548FA58E22
 
 // Internal Includes
+#if !defined(__ANDROID__)
 #include <osvr/Routing/Export.h>
+#else
+#define OSVR_ROUTING_EXPORT __attribute__((visibility("default")))
+#endif
 #include <osvr/Routing/PathTree_fwd.h>
 #include <osvr/Routing/PathNode_fwd.h>
 

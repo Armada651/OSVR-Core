@@ -20,7 +20,11 @@
 #define INCLUDED_ConnectionDevice_h_GUID_C04223D7_51D1_49BE_91AB_73FCA9C88515
 
 // Internal Includes
+#if !defined(__ANDROID__)
 #include <osvr/Connection/Export.h>
+#else
+#define OSVR_CONNECTION_EXPORT __attribute__((visibility("default")))
+#endif
 #include <osvr/Connection/ConnectionDevicePtr.h>
 #include <osvr/Util/TimeValue.h>
 

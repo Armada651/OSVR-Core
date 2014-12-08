@@ -21,8 +21,11 @@
 
 // Internal Includes
 #include <osvr/Client/ClientContext_fwd.h>
+#if !defined(__ANDROID__)
 #include <osvr/Client/Export.h>
-
+#else
+#define OSVR_CLIENT_EXPORT __attribute__((visibility("default")))
+#endif
 // Library/third-party includes
 // - none
 

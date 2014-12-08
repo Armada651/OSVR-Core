@@ -20,7 +20,11 @@
 #define INCLUDED_AnyMap_h_GUID_794993EB_B778_4E88_16A7_3A047A615587
 
 // Internal Includes
+#if !defined(__ANDROID__)
 #include <osvr/Util/Export.h>
+#else
+#define OSVR_UTIL_EXPORT __attribute__((visibility("default")))
+#endif 
 
 // Library/third-party includes
 #include <boost/any.hpp>

@@ -20,7 +20,11 @@
 #define INCLUDED_DeviceToken_h_GUID_428B015C_19A2_46B0_CFE6_CC100763D387
 
 // Internal Includes
+#if !defined(__ANDROID__)
 #include <osvr/Connection/Export.h>
+#else
+#define OSVR_CONNECTION_EXPORT __attribute__((visibility("default")))
+#endif
 #include <osvr/Util/UniquePtr.h>
 #include <osvr/Connection/ConnectionPtr.h>
 #include <osvr/Connection/ConnectionDevicePtr.h>

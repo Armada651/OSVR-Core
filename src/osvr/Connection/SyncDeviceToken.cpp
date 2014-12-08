@@ -19,7 +19,20 @@
 // Internal Includes
 #include "SyncDeviceToken.h"
 #include <osvr/Connection/ConnectionDevice.h>
+
+#if !defined(__ANDROID__)
 #include <osvr/Util/Verbosity.h>
+#else
+#include <osvr/Util/MacroToolsC.h>
+#if defined(OSVR_UTIL_DEV_VERBOSE) && !defined(OSVR_DEV_VERBOSE_DISABLE)
+#include <iostream>
+#define OSVR_DEV_VERBOSE(X)                                                    \
+    OSVR_UTIL_MULTILINE_BEGIN std::cout << "[OSVR] " << X << std::endl;        \
+    OSVR_UTIL_MULTILINE_END
+#else
+#define OSVR_DEV_VERBOSE(X) OSVR_UTIL_MULTILINE_BEGIN OSVR_UTIL_MULTILINE_END
+#endif
+#endif
 
 // Library/third-party includes
 // - none

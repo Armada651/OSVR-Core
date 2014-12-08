@@ -20,7 +20,11 @@
 #define INCLUDED_PathElementTools_h_GUID_9246E2D5_1598_409F_BD30_1817FA2C1FB2
 
 // Internal Includes
+#if !defined(__ANDROID__)
 #include <osvr/Routing/Export.h>
+#else
+#define OSVR_ROUTING_EXPORT __attribute__((visibility("default")))
+#endif
 #include <osvr/Routing/PathElementTypes.h>
 
 // Library/third-party includes

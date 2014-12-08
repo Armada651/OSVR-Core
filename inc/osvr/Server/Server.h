@@ -20,7 +20,11 @@
 #define INCLUDED_Server_h_GUID_453158B3_45B7_478D_FB83_F2F694CA5367
 
 // Internal Includes
+#if !defined(__ANDROID__)
 #include <osvr/Server/Export.h>
+#else
+#define OSVR_SERVER_EXPORT __attribute__((visibility("default")))
+#endif
 #include <osvr/Server/ServerPtr.h>
 #include <osvr/Connection/ConnectionPtr.h>
 #include <osvr/Util/UniquePtr.h>

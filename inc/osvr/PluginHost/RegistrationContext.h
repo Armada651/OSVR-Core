@@ -23,7 +23,11 @@
 // Internal Includes
 #include <osvr/Util/SharedPtr.h>
 #include <osvr/Util/AnyMap.h>
+#if !defined(__ANDROID__)
 #include <osvr/PluginHost/Export.h>
+#else
+#define OSVR_PLUGINHOST_EXPORT __attribute__((visibility("default")))
+#endif
 #include <osvr/PluginHost/PluginSpecificRegistrationContext.h>
 
 // Library/third-party includes
