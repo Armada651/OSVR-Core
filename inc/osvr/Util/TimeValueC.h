@@ -25,9 +25,19 @@
 #define INCLUDED_TimeValueC_h_GUID_A02C6917_124D_4CB3_E63E_07F2DA7144E9
 
 /* Internal Includes */
+#if !defined(__ANDROID__)
+#include <osvr/Client/Export.h>
 #include <osvr/Util/Export.h>
-#include <osvr/Util/AnnotationMacrosC.h>
 #include <osvr/Util/PlatformConfig.h>
+#else
+#define OSVR_CLIENT_EXPORT __attribute__((visibility("default"))) 
+#define OSVR_UTIL_EXPORT __attribute__((visibility("default"))) 
+#define OSVR_HAVE_STRUCT_TIMEVAL_IN_SYS_TIME_H
+#define OSVR_HAVE_STRUCT_TIMEVAL
+#endif
+
+#include <osvr/Util/AnnotationMacrosC.h>
+
 
 /* Library/third-party includes */
 /* none */

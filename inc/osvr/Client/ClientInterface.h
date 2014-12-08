@@ -20,7 +20,11 @@
 #define INCLUDED_ClientInterface_h_GUID_A3A55368_DE2F_4980_BAE9_1C398B0D40A1
 
 // Internal Includes
+#if !defined(__ANDROID__)
 #include <osvr/Client/Export.h>
+#else
+#define OSVR_CLIENT_EXPORT __attribute__((visibility("default")))
+#endif
 #include <osvr/Client/ClientContext_fwd.h>
 #include <osvr/Client/ClientInterfacePtr.h>
 #include <osvr/Util/ClientOpaqueTypesC.h>
