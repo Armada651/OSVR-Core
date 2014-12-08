@@ -49,6 +49,9 @@ if(WIN32)
     option(Boost_USE_STATIC_LIBS "Build with Boost's static libraries?" ON)
 endif()
 
+if(APPLE)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -stdlib=libc++")
+endif()
 ###
 # CMake Modules
 ###
