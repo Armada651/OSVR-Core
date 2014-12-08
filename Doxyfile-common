@@ -99,6 +99,8 @@ INPUT                  = README.md \
 RECURSIVE              = YES
 
 IMAGE_PATH = doc
+MSCFILE_DIRS = doc
+
 # If the USE_MDFILE_AS_MAINPAGE tag refers to the name of a markdown file that
 # is part of the input, its contents will be placed on the main page
 # (index.html). This can be useful if you have a project on for instance GitHub
@@ -146,6 +148,7 @@ PREDEFINED             = _cplusplus \
                          OSVR_HAVE_STRUCT_TIMEVAL \
                          OSVR_PLUGINKIT_EXPORT= \
                          OSVR_UTIL_EXPORT= \
+                         OSVR_CLIENTKIT_EXPORT= \
                          OSVR_CPP_ONLY(X)=X \
                          OSVR_IN= \
                          OSVR_IN_PTR= \
@@ -182,7 +185,11 @@ PREDEFINED             = _cplusplus \
 
 # For config item EXPAND_AS_DEFINED, default is 
 EXPAND_AS_DEFINED      = OSVR_CPP_ONLY \
-                         OSVR_C_ONLY
+                         OSVR_C_ONLY \
+                         OSVR_QUAT_MEMBER \
+                         OSVR_VEC_MEMBER \
+                         OSVR_CALLBACK_METHODS \
+                         OSVR_DEFINE_CLIENT_CALLBACK_TYPE
 
 # If you set the HAVE_DOT tag to YES then doxygen will assume the dot tool is
 # available from the path. This tool is part of Graphviz (see:

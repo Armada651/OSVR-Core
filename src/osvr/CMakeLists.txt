@@ -1,5 +1,6 @@
 include(GenerateExportHeader)
 
+include("${CMAKE_CURRENT_SOURCE_DIR}/GenerateForReportTypes.cmake")
 set(LIB_FOLDER "OSVR Libraries")
 
 ## Based on a library name without the osvr prefix, sets the following
@@ -83,14 +84,17 @@ macro(osvr_add_cpp_interface_library)
 endmacro()
 
 add_subdirectory(Util)
-add_subdirectory(PluginHost)
-#add_subdirectory(VRPN)
-add_subdirectory(Connection)
-add_subdirectory(PluginKit)
-add_subdirectory(Server)
-
+if(BUILD_SERVER)
+    add_subdirectory(PluginHost)
+    #add_subdirectory(VRPN)
+    add_subdirectory(Connection)
+    add_subdirectory(PluginKit)
+    add_subdirectory(Server)
+endif()
 
 add_subdirectory(Routing)
 
-add_subdirectory(Client)
-add_subdirectory(ClientKit)
+if(BUILD_CLIENT)
+    add_subdirectory(Client)
+    add_subdirectory(ClientKit)
+endif()

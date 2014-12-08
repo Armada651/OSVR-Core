@@ -1,4 +1,29 @@
 
 /** @page UserManual_DevTasks Developing with OSVR-Core
+  - @subpage TopicWritingClientApplication
   - @subpage TopicWritingDevicePlugin
 */
+
+/** @page TopicWritingDevicePlugin Writing a basic device plugin
+  - @subpage PluginExampleReadme
+*/
+
+#ifdef OSVR_DOXYGEN_EXTERNAL
+/** @page DevManual Contributing to OSVR-Core
+
+You may consider looking at the "internal/implementation" documentation build if you want to get your hands dirty with the code inside OSVR.
+
+  - @subpage Building
+  - @subpage HACKING
+*/
+#else
+/** @page DevManual Contributing to OSVR-Core
+
+  - @subpage Building
+  - @subpage HACKING
+  - @subpage InternalCodingGuidelines
+  - @subpage InternalProgLang
+  - @subpage InternalMetadocs
+  - @subpage InternalInnerWorkings
+*/
+#endif

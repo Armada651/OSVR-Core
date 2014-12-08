@@ -11,8 +11,13 @@ set(SOURCE
     ClientContext.cpp
     ClientInterface.cpp
     CreateContext.cpp
+    RouterTransforms.h
+    RouterPredicates.h
     VRPNContext.cpp
-    VRPNContext.h)
+    VRPNContext.h
+    VRPNAnalogRouter.h
+    VRPNButtonRouter.h
+    VRPNTrackerRouter.h)
 
 osvr_add_library()
 
@@ -31,4 +36,10 @@ target_include_directories(${LIBNAME_FULL}
 target_link_libraries(${LIBNAME_FULL}
     PRIVATE
     osvrUtilCpp
-    vendored-vrpn)
+    vendored-vrpn
+    eigen-headers)
+
+install(FILES
+    display-eileen.json
+    DESTINATION "${CMAKE_INSTALL_DOCDIR}/device-descriptors"
+    COMPONENT Doc)

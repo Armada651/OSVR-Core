@@ -57,9 +57,16 @@ namespace client {
 
       private:
         virtual void m_update();
+        void m_addAnalogRouter(const char *src, const char *dest, int channel);
+        template <typename Predicate>
+        void m_addButtonRouter(const char *src, const char *dest,
+                               Predicate pred);
         template <typename Predicate>
         void m_addTrackerRouter(const char *src, const char *dest,
                                 Predicate pred);
+        template <typename Predicate, typename Transform>
+        void m_addTrackerRouter(const char *src, const char *dest,
+                                Predicate pred, Transform xform);
         vrpn_ConnectionPtr m_conn;
         std::string const m_host;
         std::vector<RouterEntryPtr> m_routers;

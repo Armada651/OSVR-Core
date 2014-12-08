@@ -18,15 +18,19 @@
 
 // Internal Includes
 #include "VRPNContext.h"
-#include <osvr/Util/UniquePtr.h>
+#include "display_json.h"
+#include "RouterPredicates.h"
+#include "RouterTransforms.h"
+#include "VRPNAnalogRouter.h"
+#include "VRPNButtonRouter.h"
+#include "VRPNTrackerRouter.h"
 #include <osvr/Util/ClientCallbackTypesC.h>
-#include <osvr/Util/QuatlibInteropC.h>
 #include <osvr/Client/ClientContext.h>
 #include <osvr/Client/ClientInterface.h>
 #include <osvr/Util/Verbosity.h>
 
 // Library/third-party includes
-#include <vrpn_Tracker.h>
+// - none
 
 // Standard includes
 #include <cstring>
@@ -34,39 +38,6 @@
 namespace osvr {
 namespace client {
     RouterEntry::~RouterEntry() {}
-
-    template <typename Predicate> class VRPNTrackerRouter : public RouterEntry {
-      public:
-        VRPNTrackerRouter(ClientContext *ctx, vrpn_Connection *conn,
-                          const char *src, const char *dest, Predicate p)
-            : RouterEntry(ctx, dest),
-              m_remote(new vrpn_Tracker_Remote(src, conn)), m_pred(p) {
-            m_remote->register_change_handler(this, &VRPNTrackerRouter::handle);
-        }
-
-        static void VRPN_CALLBACK handle(void *userdata, vrpn_TRACKERCB info) {
-            VRPNTrackerRouter *self =
-                static_cast<VRPNTrackerRouter *>(userdata);
-            if (self->m_pred(info)) {
-                OSVR_PoseReport report;
-                report.sensor = info.sensor;
-                OSVR_TimeValue timestamp;
-                osvrStructTimevalToTimeValue(&timestamp, &(info.msg_time));
-                osvrQuatFromQuatlib(&(report.pose.rotation), info.quat);
-                osvrVec3FromQuatlib(&(report.pose.translation), info.pos);
-                for (auto const &iface : self->getContext()->getInterfaces()) {
-                    if (iface->getPath() == self->getDest()) {
-                        iface->triggerCallbacks(timestamp, report);
-                    }
-                }
-            }
-        }
-        void operator()() { m_remote->mainloop(); }
-
-      private:
-        unique_ptr<vrpn_Tracker_Remote> m_remote;
-        Predicate m_pred;
-    };
 
     VRPNContext::VRPNContext(const char appId[], const char host[])
         : ::OSVR_ClientContextObject(appId), m_host(host) {
@@ -76,21 +47,51 @@ namespace client {
 
         /// @todo this is hardcoded routing, and not well done - just a stop-gap
         /// measure.
-        m_addTrackerRouter(
-            "org_opengoggles_bundled_Multiserver/RazerHydra0", "/me/hands/left",
-            [](vrpn_TRACKERCB const &info) { return info.sensor == 0; });
         m_addTrackerRouter("org_opengoggles_bundled_Multiserver/RazerHydra0",
-                           "/me/hands/right", [](vrpn_TRACKERCB const &info) {
-            return info.sensor == 1;
-        });
+                           "/me/hands/left", SensorPredicate(0),
+                           HydraTrackerTransform());
         m_addTrackerRouter("org_opengoggles_bundled_Multiserver/RazerHydra0",
-                           "/me/hands",
-                           [](vrpn_TRACKERCB const &) { return true; });
+                           "/me/hands/right", SensorPredicate(1),
+                           HydraTrackerTransform());
+        m_addTrackerRouter("org_opengoggles_bundled_Multiserver/RazerHydra0",
+                           "/me/hands", AlwaysTruePredicate(),
+                           HydraTrackerTransform());
 
         m_addTrackerRouter(
             "org_opengoggles_bundled_Multiserver/YEI_3Space_Sensor0",
-            "/me/head",
-            [](vrpn_TRACKERCB const &info) { return info.sensor == 0; });
+            "/me/head", SensorPredicate(1));
+
+#define OSVR_HYDRA_BUTTON(SENSOR, NAME)                                        \
+    m_addButtonRouter("org_opengoggles_bundled_Multiserver/RazerHydra0",       \
+                      "/controller/left/" NAME, SensorPredicate(SENSOR));      \
+    m_addButtonRouter("org_opengoggles_bundled_Multiserver/RazerHydra0",       \
+                      "/controller/right/" NAME, SensorPredicate(SENSOR + 8))
+
+        OSVR_HYDRA_BUTTON(0, "middle");
+        OSVR_HYDRA_BUTTON(1, "1");
+        OSVR_HYDRA_BUTTON(2, "2");
+        OSVR_HYDRA_BUTTON(3, "3");
+        OSVR_HYDRA_BUTTON(4, "4");
+        OSVR_HYDRA_BUTTON(5, "bumper");
+        OSVR_HYDRA_BUTTON(6, "joystick/button");
+
+#undef OSVR_HYDRA_BUTTON
+
+#define OSVR_HYDRA_ANALOG(SENSOR, NAME)                                        \
+    m_addAnalogRouter("org_opengoggles_bundled_Multiserver/RazerHydra0",       \
+                      "/controller/left/" NAME, SENSOR);                       \
+    m_addAnalogRouter("org_opengoggles_bundled_Multiserver/RazerHydra0",       \
+                      "/controller/right/" NAME, SENSOR + 3)
+
+        OSVR_HYDRA_ANALOG(0, "joystick/x");
+        OSVR_HYDRA_ANALOG(1, "joystick/y");
+        OSVR_HYDRA_ANALOG(2, "trigger");
+
+#undef OSVR_HYDRA_ANALOG
+
+        setParameter("/display",
+                     std::string(reinterpret_cast<char *>(display_json),
+                                 display_json_len));
     }
 
     VRPNContext::~VRPNContext() {}
@@ -104,12 +105,36 @@ namespace client {
         }
     }
 
+    void VRPNContext::m_addAnalogRouter(const char *src, const char *dest,
+                                        int channel) {
+        OSVR_DEV_VERBOSE("Adding analog route for " << dest);
+
+        m_routers.emplace_back(
+            new VRPNAnalogRouter<SensorPredicate, NullTransform>(
+                this, m_conn.get(), src, dest, SensorPredicate(channel),
+                NullTransform(), channel));
+    }
+
+    template <typename Predicate>
+    void VRPNContext::m_addButtonRouter(const char *src, const char *dest,
+                                        Predicate pred) {
+        OSVR_DEV_VERBOSE("Adding button route for " << dest);
+        m_routers.emplace_back(new VRPNButtonRouter<Predicate>(
+            this, m_conn.get(), src, dest, pred));
+    }
+
     template <typename Predicate>
     void VRPNContext::m_addTrackerRouter(const char *src, const char *dest,
                                          Predicate pred) {
+        m_addTrackerRouter(src, dest, pred, NullTransform());
+    }
+
+    template <typename Predicate, typename Transform>
+    void VRPNContext::m_addTrackerRouter(const char *src, const char *dest,
+                                         Predicate pred, Transform xform) {
         OSVR_DEV_VERBOSE("Adding tracker route for " << dest);
-        m_routers.emplace_back(new VRPNTrackerRouter<Predicate>(
-            this, m_conn.get(), src, dest, pred));
+        m_routers.emplace_back(new VRPNTrackerRouter<Predicate, Transform>(
+            this, m_conn.get(), src, dest, pred, xform));
     }
 
 } // namespace client

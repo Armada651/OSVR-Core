@@ -50,19 +50,32 @@ struct OSVR_ClientInterfaceObject : boost::noncopyable {
     /// @brief Get the owning context.
     OSVR_CLIENT_EXPORT::osvr::client::ClientContext &getContext();
 
-    OSVR_CLIENT_EXPORT void registerCallback(OSVR_PoseCallback cb,
-                                             void *userdata);
+#define OSVR_CALLBACK_METHODS(TYPE)                                            \
+  public:                                                                      \
+    /** @brief Register a TYPE callback */                                     \
+    OSVR_CLIENT_EXPORT void registerCallback(OSVR_##TYPE##Callback cb,         \
+                                             void *userdata);                  \
+                                                                               \
+    /** @brief Call TYPE callbacks */                                          \
+    void triggerCallbacks(const OSVR_TimeValue &timestamp,                     \
+                          const OSVR_##TYPE##Report &report);                  \
+                                                                               \
+  private:                                                                     \
+    std::vector<std::function<void(const OSVR_TimeValue *,                     \
+                                   const OSVR_##TYPE##Report *)> >             \
+        m_callbacks##TYPE;
 
-    void triggerCallbacks(const OSVR_TimeValue &timestamp,
-                          const OSVR_PoseReport &report);
+    OSVR_CALLBACK_METHODS(Pose)
+    OSVR_CALLBACK_METHODS(Position)
+    OSVR_CALLBACK_METHODS(Orientation)
+    OSVR_CALLBACK_METHODS(Button)
+    OSVR_CALLBACK_METHODS(Analog)
+#undef OSVR_CALLBACK_METHODS
 
     /// @brief Update any state.
     void update();
 
   private:
-    std::vector<std::function<void(const OSVR_TimeValue *,
-                                   const OSVR_PoseReport *)> > m_trackerCB;
-
     ::osvr::client::ClientContext *m_ctx;
     std::string const m_path;
     friend struct OSVR_ClientContextObject;
