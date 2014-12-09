@@ -1,0 +1,24 @@
+Compiled and tested on OSX 10.7.4 with clang against gnu_static STL as
+part of the r10C NDK.
+
+These build parameters can be modified in Application.mk.
+
+To build:
+
+   Open up Android.mk and change the top two links to point to OSVR-core
+   and libfunc top level dirs.
+
+   e.g.
+
+   OSVR_DIR=/Users/davidteitelbaum/sensics/OGVR-Core
+   LIBFUNC_DIR=/Users/davidteitelbaum/sensics/libfunctionality
+
+Then run 
+     
+     ndk-build clean all
+
+Currently I'm building everything as static libs (except the plugin)
+for ease of testing, but BUILD_STATIC_LIBRARY can be changed to
+BUILD_SHARED_LIBRARY for .so generation. 
+
+Output files should exists in

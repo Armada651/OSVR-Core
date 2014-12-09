@@ -1,16 +1,21 @@
+#
+# Native Android build script for OSVR and osvr-server app
+#
+
+# Internal (this should be all you need to configure)
 OSVR_DIR=/Users/davidteitelbaum/sensics/OGVR-Core
 LIBFUNC_DIR=/Users/davidteitelbaum/sensics/libfunctionality
+
+# Vendor prior to port
 VRPN_DIR=$(OSVR_DIR)/vendor/vrpn
 EIGEN_DIR=$(OSVR_DIR)/vendor/eigen-3.2.2
-#BOOST_DIR=/Users/davidteitelbaum/sensics/3rdparty/android-cmake/common-libs/boost/boost-trunk
-BOOST_DIR=/Users/davidteitelbaum/sensics/3rdparty/Boost-for-Android/boost_1_53_0
-JSON_DIR=/Users/davidteitelbaum/sensics/3rdparty/jsoncpp/
+
+# 3rd party
+BOOST_DIR=$(OSVR_DIR)/android/deps/Boost-for-Android/boost_1_53_0
+JSON_DIR=$(OSVR_DIR)/android/deps/jsoncpp
 PLUGIN_DIR=$(OSVR_DIR)/plugins/multiserver/
-HIDAPI_DIR=/Users/davidteitelbaum/sensics/hid-api/hidapi
-LIBUSB_DIR=/Users/davidteitelbaum/sensics/3rdparty/libusbx
-
-
-MAIN_PATH=/Users/davidteitelbaum/sensics/android/app/src/main/jni
+HIDAPI_DIR=$(OSVR_DIR)/android/deps/hid-api/hidapi
+LIBUSB_DIR=$(OSVR_DIR)/android/deps/libusbx
 
 # Build libusb
 include $(CLEAR_VARS)
@@ -22,10 +27,9 @@ include $(HIDAPI_DIR)/android/jni/Android.mk
 
 # Build VRPN
 include $(CLEAR_VARS)
-LOCAL_PATH := $(call my-dir)
-
 LOCAL_PATH := $(VRPN_DIR)
 LOCAL_MODULE    := vrpn
+
 LOCAL_CPP_EXTENSION := .C .cpp
 LOCAL_C_INCLUDES += $(VRPN_DIR)/quat
 
@@ -54,55 +58,34 @@ LOCAL_SRC_FILES := \
 
 include $(BUILD_STATIC_LIBRARY)
 
-# Build libfunctionality
+# Build libfunc
 include $(CLEAR_VARS)
-LOCAL_PATH := $(LIBFUNC_DIR)/src/
+include $(LIBFUNC_DIR)/android/jni/Android.mk
 
-LOCAL_CPP_FEATURES += exceptions
-LOCAL_CFLAGS += -fpermissive -frtti
-#LOCAL_LDLIBS += -latomic
-#LOCAL_CFLAGS += -D_STLP_USE_BOOST_SUPPORT
-
-LOCAL_C_INCLUDES := $(LIBFUNC_DIR)/inc/
-LOCAL_C_INCLUDES += $(LIBFUNC_DIR)/src/
-
-LOCAL_MODULE    := functionality
-LOCAL_CPP_EXTENSION := .C .cpp
-LOCAL_SRC_FILES := \
-	libfunctionality/LibraryHandleLibdl.cpp \
-	libfunctionality/LoadPlugin.cpp \
-	libfunctionality/PluginHandle.cpp 
-
-include $(BUILD_STATIC_LIBRARY)
-include $(CLEAR_VARS)
-
-
-# Build prebuilts
+# Include Boost Thread and System prebuilts 
+# (I built these in Boost-for-Android
 include $(CLEAR_VARS)
 LOCAL_PATH := $(call my-dir)
 LOCAL_MODULE    := boost_system-gcc-mt-1_53 
-LOCAL_SRC_FILES := $(MAIN_PATH)/$(TARGET_ARCH_ABI)/libboost_system-gcc-mt-1_53.a
+LOCAL_SRC_FILES := $(OSVR_DIR)/android/jni/$(TARGET_ARCH_ABI)/libboost_system-gcc-mt-1_53.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_PATH := $(call my-dir)
 LOCAL_MODULE    := boost_thread-gcc-mt-1_53
-LOCAL_SRC_FILES := $(MAIN_PATH)/$(TARGET_ARCH_ABI)/libboost_thread-gcc-mt-1_53.a
-
+LOCAL_SRC_FILES := $(OSVR_DIR)/android/jni/$(TARGET_ARCH_ABI)/libboost_thread-gcc-mt-1_53.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 # Build OSVR
 include $(CLEAR_VARS)
 LOCAL_PATH := $(call my-dir)
-
 LOCAL_PATH := $(OSVR_DIR)/src/
 
 LOCAL_CPP_FEATURES += exceptions rtti
-LOCAL_LDLIBS += -latomic
 
 LOCAL_CFLAGS += -DGXX_EXPERIMENTAL_CXX0X
-#LOCAL_CFLAGS += -D_STLP_USE_BOOST_SUPPORT
-#LOCAL_CFLAGS += -stdlib=libc++
+LOCAL_CFLAGS += -D_STLP_USE_BOOST_SUPPORT
+LOCAL_CFLAGS += -stdlib=libc++
 LOCAL_CFLAGS += -fpermissive -frtti
 LOCAL_CFLAGS += -DVRPN_USE_HID=1
 
@@ -171,10 +154,10 @@ LOCAL_PATH := $(JSON_DIR)
 
 LOCAL_CPP_EXTENSION := .cpp 
 LOCAL_CPP_FEATURES += exceptions rtti
+
 LOCAL_MODULE := jsoncpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/include
-
 LOCAL_SRC_FILES := \
 	./src/lib_json/json_reader.cpp \
 	./src/lib_json/json_value.cpp \
@@ -182,13 +165,13 @@ LOCAL_SRC_FILES := \
 
 include $(BUILD_STATIC_LIBRARY)
 
-#Build executables!
+#Build osvr_server executable!
 
 LOCAL_PATH := $(OSVR_DIR)
 include $(CLEAR_VARS)
 
 LOCAL_CPP_FEATURES += exceptions rtti
-LOCAL_LDLIBS += -latomic
+LOCAL_LDLIBS += -latomic  # Interesting why we need this for an executable...
 
 LOCAL_STATIC_LIBRARIES += osvr
 LOCAL_STATIC_LIBRARIES += jsoncpp
@@ -199,14 +182,10 @@ LOCAL_C_INCLUDES += $(BOOST_DIR)
 LOCAL_SRC_FILES := \
 	./apps/osvr_server.cpp
 
-#LOCAL_CPPFLAGS := -std=gnu++0x -Wall         # whatever g++ flags you like
-#LOCAL_LDLIBS := -L$(SYSROOT)/usr/lib -llog   # whatever ld flags you like
-
-include $(BUILD_EXECUTABLE)    # <-- Use this to build an executable.
+include $(BUILD_EXECUTABLE)  
 
 
-
-# Build multiserver plugin
+# Build multiserver plugin .so
 
 LOCAL_PATH := $(PLUGIN_DIR)
 include $(CLEAR_VARS)
@@ -215,7 +194,6 @@ LOCAL_CPP_FEATURES += exceptions rtti
 LOCAL_LDLIBS += -latomic -llog
 
 LOCAL_CFLAGS += -DVRPN_USE_HID=1
-
 LOCAL_CPP_EXTENSION := .cpp 
 LOCAL_CPP_FEATURES += exceptions rtti
 LOCAL_MODULE := org_opengoggles_bundled_Multiserver
