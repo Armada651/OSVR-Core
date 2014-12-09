@@ -21,4 +21,4 @@ Currently I'm building everything as static libs (except the plugin)
 for ease of testing, but BUILD_STATIC_LIBRARY can be changed to
 BUILD_SHARED_LIBRARY for .so generation. 
 
-Output files should exists in
+Output files should exists in libs/armeabi
