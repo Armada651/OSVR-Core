@@ -21,7 +21,7 @@
 
 // Internal Includes
 #include <osvr/Util/ClientCallbackTypesC.h>
-
+#include <osvr/Util/ClientReportTypesC.h>
 // Library/third-party includes
 #include <boost/mpl/vector.hpp>
 
