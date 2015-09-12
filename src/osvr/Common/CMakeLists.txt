@@ -183,7 +183,6 @@ target_link_libraries(${LIBNAME_FULL}
     osvrUtilCpp
     PRIVATE
     jsoncpp_lib
-    opencv_core
     vendored-vrpn
     eigen-headers
     osvr_cxx11_flags

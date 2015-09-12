@@ -15,7 +15,8 @@ set(API
     "${HEADER_LOCATION}/PluginKitC.h"
     "${HEADER_LOCATION}/PluginRegistration.h"
     "${HEADER_LOCATION}/PluginRegistrationC.h"
-    "${HEADER_LOCATION}/TrackerInterfaceC.h")
+    "${HEADER_LOCATION}/TrackerInterfaceC.h"
+    "${HEADER_LOCATION}/OpenCVTypeDispatch.h")
 
 set(SOURCE
     AnalogInterfaceC.cpp
@@ -51,6 +52,7 @@ target_link_libraries(${LIBNAME_FULL}
     osvrConnection
     osvrUtilCpp
     osvrCommon
+    opencv_core
     vendored-vrpn
     boost_thread)
 

@@ -28,8 +28,8 @@
 // Internal Includes
 #include <osvr/PluginKit/DeviceInterface.h>
 #include <osvr/PluginKit/ImagingInterfaceC.h>
+#include <osvr/PluginKit/OpenCVTypeDispatch.h>
 #include <osvr/Util/ChannelCountC.h>
-#include <osvr/Util/OpenCVTypeDispatch.h>
 
 // Library/third-party includes
 #include <opencv2/core/core_c.h>
