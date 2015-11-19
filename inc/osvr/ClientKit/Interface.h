@@ -34,7 +34,7 @@
 #include <osvr/Util/ReportTypesX.h>
 
 // Library/third-party includes
-#include <boost/function.hpp>
+// - none
 
 // Standard includes
 // - none
@@ -64,7 +64,7 @@ namespace clientkit {
     }
 
     inline void
-    Interface::takeOwnership(util::boost_util::DeletablePtr const &obj) {
+    Interface::takeOwnership(util::DeletablePtr const &obj) {
         m_deletables.push_back(obj);
     }
 

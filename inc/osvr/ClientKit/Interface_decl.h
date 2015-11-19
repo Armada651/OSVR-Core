@@ -29,7 +29,7 @@
 // Internal Includes
 #include <osvr/Util/ClientCallbackTypesC.h>
 #include <osvr/Util/ClientOpaqueTypesC.h>
-#include <osvr/Util/BoostDeletable.h>
+#include <osvr/Util/StdDeletable.h>
 #include <osvr/Util/ReportTypesX.h>
 
 // Library/third-party includes
@@ -93,12 +93,12 @@ namespace clientkit {
         void free();
 
         /// @brief Take (shared) ownership of some Deletable object.
-        void takeOwnership(util::boost_util::DeletablePtr const &obj);
+        void takeOwnership(util::DeletablePtr const &obj);
 
       private:
         ClientContext *m_ctx;
         OSVR_ClientInterface m_interface;
-        util::boost_util::DeletableList m_deletables;
+        util::DeletableList m_deletables;
     };
 } // end namespace clientkit
 
