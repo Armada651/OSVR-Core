@@ -312,10 +312,7 @@ class VideoBasedHMDTracker : boost::noncopyable {
             d.push_back(0);
             m_vbtracker.addSensor(
                 osvr::vbtracker::createHDKLedIdentifier(0), m, d,
-                osvr::vbtracker::OsvrHdkLedLocations_SENSOR0, 6, 0);
-            m_vbtracker.addSensor(
-                osvr::vbtracker::createHDKLedIdentifier(1), m, d,
-                osvr::vbtracker::OsvrHdkLedLocations_SENSOR1, 4, 0);
+                osvr::vbtracker::OsvrHdkLedLocations_SENSOR0, 4, 2);
 
         } break;
 
