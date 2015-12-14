@@ -34,8 +34,6 @@
 #include <osvr/Util/Verbosity.h>
 #include <osvr/Common/DeduplicatingFunctionWrapper.h>
 
-#include <boost/algorithm/string.hpp>
-
 // Library/third-party includes
 #include <json/value.h>
 
@@ -64,18 +62,8 @@ namespace client {
                     // replaced, keeping the ":xxxx" part with the port number
                     // (or even the potential "tcp://" prefix) - the host could
                     // be running a local VRPN/OSVR service on another port!
-
-                    // We have to do it like this, because
-                    // std::string::replace() has a silly undefined corner case
-                    // when the string we are replacing localhost with is
-                    // shorter than the length of string being replaced (see
-                    // http://www.cplusplus.com/reference/string/string/replace/
-                    // )
-                    // Better be safe than sorry :(
-
-                    serverRef = boost::algorithm::ireplace_first_copy(
-                        server, LOCALHOST,
-                        host); // Go through a copy, just to be extra safe
+                    server.replace(it, strlen(LOCALHOST), host);
+                    serverRef = server; // Go through a copy, just to be extra safe
                 }
             }
         }
