@@ -30,7 +30,7 @@
 #include <osvr/Util/Verbosity.h>
 
 // Library/third-party includes
-#include <boost/assert.hpp>
+// - none
 
 // Standard includes
 #include <stdexcept>

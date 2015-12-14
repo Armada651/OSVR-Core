@@ -33,7 +33,7 @@
 #include <osvr/Common/ResolveTreeNode.h>
 
 // Library/third-party includes
-#include <boost/assert.hpp>
+// - none
 
 // Standard includes
 #include <unordered_set>
@@ -94,7 +94,7 @@ namespace client {
             OSVR_DEV_VERBOSE("Successfully produced handler for " << path);
             // Store the new handler in the interface tree
             auto oldHandler = m_interfaces.replaceHandlerForPath(path, handler);
-            BOOST_ASSERT_MSG(
+            OSVR_ASSERT_MSG(
                 !oldHandler,
                 "We removed the old handler before so it should be null now");
             return true;

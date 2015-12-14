@@ -25,6 +25,7 @@
 // Internal Includes
 #include <osvr/Common/SystemComponent.h>
 #include <osvr/Common/BaseDevice.h>
+#include <osvr/Util/AssertC.h>
 #include <osvr/Util/MessageKeys.h>
 #include <osvr/Common/Serialization.h>
 #include <osvr/Common/JSONSerializationTags.h>
@@ -162,7 +163,7 @@ namespace common {
         messages::ReplacementTreeFromServer::MessageSerialization msg;
         deserialize(bufReader, msg);
         auto timestamp = util::time::fromStructTimeval(p.msg_time);
-        BOOST_ASSERT_MSG(msg.getValue().isArray(),
+        OSVR_ASSERT_MSG(msg.getValue().isArray(),
                          "replace tree message must be an array of nodes!");
         for (auto const &cb : self->m_replaceTreeHandlers) {
             cb(msg.getValue(), timestamp);

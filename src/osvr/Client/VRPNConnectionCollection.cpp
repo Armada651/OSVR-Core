@@ -24,6 +24,7 @@
 
 // Internal Includes
 #include "VRPNConnectionCollection.h"
+#include <osvr/Util/AssertC.h>
 
 // Library/third-party includes
 #include <vrpn_Connection.h>
@@ -50,7 +51,7 @@ namespace client {
             return existing->second;
         }
         connMap[host] = conn;
-        BOOST_ASSERT(!empty());
+        OSVR_ASSERT(!empty());
         return conn;
     }
 
@@ -69,7 +70,7 @@ namespace client {
                                         nullptr, nullptr, nullptr, true));
         connMap[host] = newConn;
         newConn->removeReference(); // Remove extra reference.
-        BOOST_ASSERT(!empty());
+        OSVR_ASSERT(!empty());
         return newConn;
     }
 

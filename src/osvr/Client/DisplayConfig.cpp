@@ -24,6 +24,7 @@
 
 // Internal Includes
 #include <osvr/Client/DisplayConfig.h>
+#include <osvr/Util/AssertC.h>
 #include <osvr/Util/ProjectionMatrixFromFOV.h>
 #include <osvr/Util/Verbosity.h>
 #include "DisplayDescriptorSchema1.h"
@@ -153,7 +154,7 @@ namespace client {
                 cfg->m_displayInputs.push_back(DisplayInput(
                     desc.getDisplayWidth(), desc.getDisplayHeight()));
             }
-            BOOST_ASSERT_MSG(displayInputIndices.size() >= eyesDesc.size(),
+            OSVR_ASSERT_MSG(displayInputIndices.size() >= eyesDesc.size(),
                              "Must have at least as many indices as eyes");
 
             /// Create the actual eye (with implied surface) objects

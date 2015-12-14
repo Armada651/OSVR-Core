@@ -30,6 +30,7 @@
 #include <osvr/Common/PathElementTools.h>
 #include <osvr/Common/PathElementTypes.h>
 #include <osvr/Common/ClientInterface.h>
+#include <osvr/Util/AssertC.h>
 #include <osvr/Util/Verbosity.h>
 #include <osvr/Common/DeduplicatingFunctionWrapper.h>
 
@@ -46,7 +47,7 @@ namespace osvr {
 namespace client {
     inline void replaceLocalhostServers(Json::Value &nodes,
                                         std::string const &host) {
-        BOOST_ASSERT_MSG(host.length() > 0,
+        OSVR_ASSERT_MSG(host.length() > 0,
                          "Cannot replace localhost with an empty host name!");
         const auto deviceElementTypeName =
             common::elements::getTypeName<common::elements::DeviceElement>();
