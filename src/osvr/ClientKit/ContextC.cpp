@@ -41,7 +41,7 @@ static const char HOST_ENV_VAR[] = "OSVR_HOST";
 OSVR_ClientContext osvrClientInit(const char applicationIdentifier[],
                                   uint32_t /*flags*/) {
     auto host = osvr::common::getEnvironmentVariable(HOST_ENV_VAR);
-    if (host.is_initialized()) {
+    if (host) {
         OSVR_DEV_VERBOSE("Connecting to non-default host " << *host);
         return ::osvr::client::createContext(applicationIdentifier,
                                              host->c_str());

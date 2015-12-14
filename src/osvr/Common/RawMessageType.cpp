@@ -37,11 +37,11 @@ namespace common {
     RawMessageType::RawMessageType(UnderlyingMessageType msg)
         : m_message(msg) {}
     RawMessageType::UnderlyingMessageType RawMessageType::get() const {
-        return m_message.get_value_or(vrpn_ANY_TYPE);
+        return m_message.value_or(vrpn_ANY_TYPE);
     }
     RawMessageType::UnderlyingMessageType
     RawMessageType::getOr(UnderlyingMessageType valueIfNotSet) const {
-        return m_message.get_value_or(valueIfNotSet);
+        return m_message.value_or(valueIfNotSet);
     }
 } // namespace common
 } // namespace osvr

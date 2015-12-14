@@ -31,6 +31,7 @@
 #include <osvr/Util/EigenInterop.h>
 #include <osvr/Common/PathTreeFull.h>
 #include <osvr/Util/ChannelCountC.h>
+#include <osvr/Util/SharedPtr.h>
 #include <osvr/Util/UniquePtr.h>
 #include <osvr/Common/Transform.h>
 #include <osvr/Common/OriginalSource.h>
@@ -39,12 +40,10 @@
 #include <osvr/Client/InterfaceTree.h>
 #include <osvr/Util/ValueOrRange.h>
 #include <osvr/Util/Verbosity.h>
+#include <osvr/Util/StdOptionalWrapper.h>
 
 // Library/third-party includes
 #include <vrpn_Analog.h>
-#include <boost/lexical_cast.hpp>
-#include <boost/any.hpp>
-#include <boost/variant/get.hpp>
 #include <json/value.h>
 #include <json/reader.h>
 
@@ -58,14 +57,14 @@ namespace client {
       public:
         typedef util::ValueOrRange<int> RangeType;
         VRPNAnalogHandler(vrpn_ConnectionPtr const &conn, const char *src,
-                          boost::optional<int> sensor,
+                          optional<int> sensor,
                           common::InterfaceList &ifaces)
             : m_remote(new vrpn_Analog_Remote(src, conn.get())),
-              m_internals(ifaces), m_all(!sensor.is_initialized()) {
+              m_internals(ifaces), m_all(!sensor) {
             m_remote->register_change_handler(this, &VRPNAnalogHandler::handle);
             OSVR_DEV_VERBOSE("Constructed an AnalogHandler for " << src);
 
-            if (sensor.is_initialized()) {
+            if (sensor) {
                 m_sensors.setValue(*sensor);
             }
         }

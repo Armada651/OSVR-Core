@@ -37,11 +37,11 @@ namespace common {
     RawSenderType::RawSenderType(UnderlyingSenderType sender)
         : m_sender(sender) {}
     RawSenderType::UnderlyingSenderType RawSenderType::get() const {
-        return m_sender.get_value_or(vrpn_ANY_SENDER);
+        return m_sender.value_or(vrpn_ANY_SENDER);
     }
     RawSenderType::UnderlyingSenderType
     RawSenderType::getOr(UnderlyingSenderType valueIfNotSet) const {
-        return m_sender.get_value_or(valueIfNotSet);
+        return m_sender.value_or(valueIfNotSet);
     }
 } // namespace common
 } // namespace osvr

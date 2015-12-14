@@ -36,9 +36,10 @@
 #include <osvr/Util/MatrixConventionsC.h>
 #include <osvr/Util/RadialDistortionParametersC.h>
 #include <osvr/Util/Angles.h>
+#include <osvr/Util/StdOptionalWrapper.h>
 
 // Library/third-party includes
-#include <boost/optional.hpp>
+// - none
 
 // Standard includes
 #include <vector>
@@ -90,16 +91,16 @@ namespace client {
         OSVR_CLIENT_EXPORT Eigen::Matrix4d getView() const;
 
         bool wantDistortion() const {
-            return m_radDistortParams.is_initialized();
+            return !!m_radDistortParams;
         }
 
-        boost::optional<OSVR_RadialDistortionParameters>
+        optional<OSVR_RadialDistortionParameters>
         getRadialDistortionParams() const {
             return m_radDistortParams;
         }
 
         OSVR_DistortionPriority getRadialDistortionPriority() const {
-            return (m_radDistortParams.is_initialized())
+            return (m_radDistortParams)
                        ? 1
                        : OSVR_DISTORTION_PRIORITY_UNAVAILABLE;
         }
@@ -127,7 +128,7 @@ namespace client {
             OSVR_ClientContext ctx, Eigen::Vector3d const &offset,
             const char path[], Viewport &&viewport, util::Rectd &&unitBounds,
             bool rot180, double pitchTilt,
-            boost::optional<OSVR_RadialDistortionParameters> radDistortParams,
+            optional<OSVR_RadialDistortionParameters> radDistortParams,
             OSVR_DisplayInputCount displayInputIdx,
             util::Angle opticalAxisOffsetY = 0. * util::radians);
         util::Rectd m_getRect(double near, double far) const;
@@ -142,7 +143,7 @@ namespace client {
 
         bool m_rot180;
         double m_pitchTilt;
-        boost::optional<OSVR_RadialDistortionParameters> m_radDistortParams;
+        optional<OSVR_RadialDistortionParameters> m_radDistortParams;
         OSVR_DisplayInputCount m_displayInputIdx;
         util::Angle m_opticalAxisOffsetY;
     };

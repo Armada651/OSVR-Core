@@ -29,13 +29,14 @@
 #include <osvr/Common/ReportTypes.h>
 #include <osvr/Common/StateType.h>
 #include <osvr/Common/ReportState.h>
+#include <osvr/Util/StdOptionalWrapper.h>
 #include <osvr/Util/TimeValue.h>
 #include <osvr/Common/Tracing.h>
 #include <osvr/TypePack/TypeKeyedTuple.h>
 #include <osvr/TypePack/Quote.h>
 
 // Library/third-party includes
-#include <boost/optional.hpp>
+// - none
 
 // Standard includes
 // - none
@@ -53,7 +54,7 @@ namespace common {
     /// @brief Alias taking a report type and returning a state map
     /// value type.
     template <typename ReportType>
-    using StateMapValueType = boost::optional<StateMapContents<ReportType>>;
+    using StateMapValueType = optional<StateMapContents<ReportType>>;
 
     /// @brief Data structure mapping from a report type to an optional state
     /// value.

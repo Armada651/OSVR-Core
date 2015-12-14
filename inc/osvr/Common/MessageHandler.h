@@ -29,9 +29,9 @@
 #include <osvr/Common/RawMessageType.h>
 #include <osvr/Common/RawSenderType.h>
 #include <osvr/Util/SharedPtr.h>
+#include <osvr/Util/StdOptionalWrapper.h>
 
 // Library/third-party includes
-#include <boost/optional.hpp>
 #include <boost/noncopyable.hpp>
 
 // Standard includes
@@ -109,10 +109,10 @@ namespace common {
         /// Automatically done when object is destroyed. No effect if called
         /// before registerHandler()
         void unregisterHandler() {
-            if (m_reg.is_initialized()) {
+            if (m_reg) {
                 m_reg->unregisterHandler(m_handler, m_data, m_sender,
                                          m_msgType);
-                m_reg.reset();
+                m_reg = optional<registration_type>();
             }
         }
 
@@ -131,7 +131,7 @@ namespace common {
         void *m_data;
         RawSenderType m_sender;
         RawMessageType m_msgType;
-        boost::optional<registration_type> m_reg;
+        optional<registration_type> m_reg;
     };
 
     template <typename MessageTraits>

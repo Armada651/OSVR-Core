@@ -44,6 +44,12 @@ set_target_properties(${LIBNAME_FULL} PROPERTIES
 set_property(TARGET ${LIBNAME_FULL} APPEND PROPERTY
     COMPATIBLE_INTERFACE_STRING osvrcore_MAJOR_VERSION)
 
+if(NOT OSVR_HAVE_STDOPTIONAL)
+    target_link_libraries(${LIBNAME_FULL}
+        PRIVATE
+        optional)
+endif()
+
 target_include_directories(${LIBNAME_FULL}
     PRIVATE
     ${Boost_INCLUDE_DIRS})

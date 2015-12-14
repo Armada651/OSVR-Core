@@ -50,10 +50,10 @@ namespace client {
       public:
         NetworkDirectionRemoteHandler(vrpn_ConnectionPtr const &conn,
                                       std::string const &deviceName,
-                                      boost::optional<OSVR_ChannelCount> sensor,
+                                      optional<OSVR_ChannelCount> sensor,
                                       common::InterfaceList &ifaces)
             : m_dev(common::createClientDevice(deviceName, conn)),
-              m_internals(ifaces), m_all(!sensor.is_initialized()),
+              m_internals(ifaces), m_all(!sensor),
               m_sensor(sensor) {
             auto direction = common::DirectionComponent::create();
             m_dev->addComponent(direction);
@@ -94,7 +94,7 @@ namespace client {
         common::BaseDevicePtr m_dev;
         RemoteHandlerInternals m_internals;
         bool m_all;
-        boost::optional<OSVR_ChannelCount> m_sensor;
+        optional<OSVR_ChannelCount> m_sensor;
     };
 
     DirectionRemoteFactory::DirectionRemoteFactory(

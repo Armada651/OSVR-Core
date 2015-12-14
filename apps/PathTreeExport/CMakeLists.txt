@@ -5,6 +5,10 @@ add_executable(PathTreeExport
     GraphOutputInterface.cpp
     GraphOutputInterface.h
     PathTreeExport.cpp)
+if(NOT OSVR_HAVE_STDOPTIONAL)
+    target_link_libraries(PathTreeExport
+        optional)
+endif()
 target_link_libraries(PathTreeExport
     osvrCommon
     jsoncpp_lib

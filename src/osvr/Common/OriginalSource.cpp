@@ -32,7 +32,6 @@
 #include <boost/variant/static_visitor.hpp>
 #include <boost/variant/apply_visitor.hpp>
 #include <boost/variant/get.hpp>
-#include <boost/optional.hpp>
 #include <boost/lexical_cast.hpp>
 
 // Standard includes
@@ -103,11 +102,11 @@ namespace common {
     common::PathNode *OriginalSource::getSensor() const { return m_sensor; }
 
     template <typename T>
-    inline boost::optional<T>
+    inline optional<T>
     getSensorNumberHelper(OriginalSource const &self) {
         BOOST_ASSERT_MSG(self.isResolved(),
                          "Only makes sense when called on a resolved source.");
-        boost::optional<T> ret;
+        optional<T> ret;
         if (nullptr == self.getSensor()) {
             return ret;
         }
@@ -120,11 +119,11 @@ namespace common {
         return ret;
     }
 
-    boost::optional<int> OriginalSource::getSensorNumber() const {
+    optional<int> OriginalSource::getSensorNumber() const {
         return getSensorNumberHelper<int>(*this);
     }
 
-    boost::optional<OSVR_ChannelCount>
+    optional<OSVR_ChannelCount>
     OriginalSource::getSensorNumberAsChannelCount() const {
         return getSensorNumberHelper<OSVR_ChannelCount>(*this);
     }

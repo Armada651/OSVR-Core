@@ -48,14 +48,14 @@ class PathTreeResolution : public ::testing::Test {
     void checkResolution() {
         ASSERT_NO_THROW(common::resolveTreeNode(tree, dummy::getAlias()));
         ASSERT_TRUE(
-            common::resolveTreeNode(tree, dummy::getAlias()).is_initialized());
+            !!common::resolveTreeNode(tree, dummy::getAlias()));
         source = *common::resolveTreeNode(tree, dummy::getAlias());
 
         ASSERT_EQ(source.getInterfaceName(), dummy::getInterface());
         ASSERT_EQ(source.getDeviceElement().getDeviceName(),
                   dummy::getDevice());
         ASSERT_EQ(source.getDeviceElement().getServer(), dummy::getHost());
-        ASSERT_TRUE(source.getSensorNumber().is_initialized());
+        ASSERT_TRUE(!!source.getSensorNumber());
         ASSERT_EQ(*(source.getSensorNumber()), dummy::getSensor());
     }
 

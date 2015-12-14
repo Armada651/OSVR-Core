@@ -420,7 +420,7 @@ OSVR_ReturnCode osvrClientGetViewerEyeSurfaceRadialDistortion(
     OSVR_VALIDATE_OUTPUT_PTR(params, "radial distortion parameter structure");
     auto optParams = disp->cfg->getViewerEyeSurface(viewer, eye, surface)
                          .getRadialDistortionParams();
-    if (optParams.is_initialized()) {
+    if (optParams) {
         *params = *optParams;
         return OSVR_RETURN_SUCCESS;
     }

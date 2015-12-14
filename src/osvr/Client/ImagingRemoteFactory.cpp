@@ -50,10 +50,10 @@ namespace client {
       public:
         ImagingRemoteHandler(vrpn_ConnectionPtr const &conn,
                              std::string const &deviceName,
-                             boost::optional<OSVR_ChannelCount> sensor,
+                             optional<OSVR_ChannelCount> sensor,
                              common::InterfaceList &ifaces)
             : m_dev(common::createClientDevice(deviceName, conn)),
-              m_internals(ifaces), m_all(!sensor.is_initialized()),
+              m_internals(ifaces), m_all(!sensor),
               m_sensor(sensor) {
             auto imaging = common::ImagingComponent::create();
             m_dev->addComponent(imaging);
@@ -104,7 +104,7 @@ namespace client {
         common::BaseDevicePtr m_dev;
         RemoteHandlerInternals m_internals;
         bool m_all;
-        boost::optional<OSVR_ChannelCount> m_sensor;
+        optional<OSVR_ChannelCount> m_sensor;
     };
 
     ImagingRemoteFactory::ImagingRemoteFactory(

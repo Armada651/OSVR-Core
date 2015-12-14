@@ -37,9 +37,6 @@
 
 // Library/third-party includes
 #include <vrpn_Button.h>
-#include <boost/lexical_cast.hpp>
-#include <boost/any.hpp>
-#include <boost/variant/get.hpp>
 #include <json/value.h>
 #include <json/reader.h>
 
@@ -53,16 +50,16 @@ namespace client {
       public:
         typedef util::ValueOrRange<int> RangeType;
         VRPNButtonHandler(vrpn_ConnectionPtr const &conn, const char *src,
-                          boost::optional<int> sensor,
+                          optional<int> sensor,
                           common::InterfaceList &ifaces)
             : m_remote(new vrpn_Button_Remote(src, conn.get())),
-              m_internals(ifaces), m_all(!sensor.is_initialized()) {
+              m_internals(ifaces), m_all(!sensor) {
             m_remote->register_change_handler(this, &VRPNButtonHandler::handle);
             m_remote->register_states_handler(
                 this, &VRPNButtonHandler::handle_states);
             OSVR_DEV_VERBOSE("Constructed a ButtonHandler for " << src);
 
-            if (sensor.is_initialized()) {
+            if (sensor) {
                 m_sensors.setValue(*sensor);
             }
         }

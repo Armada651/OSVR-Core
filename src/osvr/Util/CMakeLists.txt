@@ -24,6 +24,10 @@ include(CheckCXXSymbolExists)
 check_cxx_symbol_exists("std::align" "memory" OSVR_HAVE_STDALIGN)
 configure_file(StdAlignWrapper.h.in "${CMAKE_CURRENT_BINARY_DIR}/StdAlignWrapper.h" @ONLY)
 
+# check for std::experimental::optional
+check_cxx_symbol_exists("std::experimental::optional" "experimental/optional" OSVR_HAVE_STDOPTIONAL)
+configure_file(StdOptionalWrapper.h.in "${CMAKE_CURRENT_BINARY_DIR}/StdOptionalWrapper.h" @ONLY)
+
 ###
 # Library build
 ###

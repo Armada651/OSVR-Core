@@ -146,14 +146,14 @@ namespace common {
         boost::apply_visitor(visitor, node.value());
     }
 
-    boost::optional<OriginalSource> resolveTreeNode(PathTree &pathTree,
+    optional<OriginalSource> resolveTreeNode(PathTree &pathTree,
                                                     std::string const &path) {
         OriginalSource source;
         resolveTreeNodeImpl(pathTree, path, source);
         if (source.isResolved()) {
             return source;
         }
-        return boost::optional<OriginalSource>();
+        return optional<OriginalSource>();
     }
 } // namespace common
 } // namespace osvr

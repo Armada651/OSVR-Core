@@ -50,10 +50,10 @@ namespace client {
       public:
         NetworkLocation2DRemoteHandler(
             vrpn_ConnectionPtr const &conn, std::string const &deviceName,
-            boost::optional<OSVR_ChannelCount> sensor,
+            optional<OSVR_ChannelCount> sensor,
             common::InterfaceList &ifaces)
             : m_dev(common::createClientDevice(deviceName, conn)),
-              m_internals(ifaces), m_all(!sensor.is_initialized()),
+              m_internals(ifaces), m_all(!sensor),
               m_sensor(sensor) {
             auto location = common::Location2DComponent::create();
             m_dev->addComponent(location);
@@ -93,7 +93,7 @@ namespace client {
         common::BaseDevicePtr m_dev;
         RemoteHandlerInternals m_internals;
         bool m_all;
-        boost::optional<OSVR_ChannelCount> m_sensor;
+        optional<OSVR_ChannelCount> m_sensor;
     };
 
     Location2DRemoteFactory::Location2DRemoteFactory(

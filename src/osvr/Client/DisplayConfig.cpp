@@ -108,7 +108,7 @@ namespace client {
             }
 
             /// Handle radial distortion parameters
-            boost::optional<OSVR_RadialDistortionParameters> distort;
+            optional<OSVR_RadialDistortionParameters> distort;
             auto k1 = desc.getDistortion();
             if (k1.k1_red != 0 || k1.k1_green != 0 || k1.k1_blue != 0) {
                 OSVR_RadialDistortionParameters params;
@@ -165,7 +165,7 @@ namespace client {
                 double offsetFactor = (2. * eye) - 1.;
 
                 // Set up per-eye distortion parameters, if needed
-                boost::optional<OSVR_RadialDistortionParameters> distortEye(
+                optional<OSVR_RadialDistortionParameters> distortEye(
                     distort);
                 if (distortEye) {
                     distortEye->centerOfProjection.data[0] =

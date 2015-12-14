@@ -46,7 +46,6 @@
 #include <boost/any.hpp>
 #include <boost/variant/get.hpp>
 #include <boost/lexical_cast.hpp>
-#include <boost/optional.hpp>
 #include <json/value.h>
 #include <json/reader.h>
 
@@ -76,10 +75,10 @@ namespace client {
         EyeTrackerRemoteHandler(vrpn_ConnectionPtr const &conn,
                                 std::string const &deviceName,
                                 Options const &options,
-                                boost::optional<OSVR_ChannelCount> sensor,
+                                optional<OSVR_ChannelCount> sensor,
                                 common::InterfaceList &ifaces)
             : m_dev(common::createClientDevice(deviceName, conn)),
-              m_internals(ifaces), m_all(!sensor.is_initialized()),
+              m_internals(ifaces), m_all(!sensor),
               m_opts(options), m_sensor(sensor) {
             auto eyetracker = common::EyeTrackerComponent::create();
             m_dev->addComponent(eyetracker);
@@ -195,7 +194,7 @@ namespace client {
         RemoteHandlerInternals m_internals;
         bool m_all;
         Options m_opts;
-        boost::optional<OSVR_ChannelCount> m_sensor;
+        optional<OSVR_ChannelCount> m_sensor;
     };
 
     EyeTrackerRemoteFactory::EyeTrackerRemoteFactory(

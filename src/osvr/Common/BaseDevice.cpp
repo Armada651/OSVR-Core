@@ -27,6 +27,7 @@
 // Internal Includes
 #include <osvr/Common/BaseDevice.h>
 #include <osvr/Common/DeviceComponent.h>
+#include <osvr/Util/StdOptionalWrapper.h>
 #include <osvr/Util/Verbosity.h>
 
 // Library/third-party includes

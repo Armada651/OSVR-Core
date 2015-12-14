@@ -71,6 +71,12 @@ foreach(HEADER ${headers})
             set_target_properties(${test_name} PROPERTIES
                 FOLDER "OSVR Header dependency tests")
 
+            if(NOT OSVR_HAVE_STDOPTIONAL)
+                target_link_libraries(${test_name}
+                    PRIVATE
+                    optional)
+            endif()
+
             if(${extension} STREQUAL cpp)
                 target_link_libraries(${test_name} PRIVATE osvr_cxx11_flags)
             endif()

@@ -43,9 +43,6 @@
 
 // Library/third-party includes
 #include <vrpn_Tracker.h>
-#include <boost/lexical_cast.hpp>
-#include <boost/any.hpp>
-#include <boost/variant/get.hpp>
 #include <json/value.h>
 #include <json/reader.h>
 
@@ -67,7 +64,7 @@ namespace client {
                            Options const &options,
                            common::TrackerSensorInfo const &info,
                            common::Transform const &t,
-                           boost::optional<int> sensor,
+                           optional<int> sensor,
                            common::InterfaceList &ifaces,
                            common::ClientContext &ctx)
             : m_remote(new vrpn_Tracker_Remote(src, conn.get())),
@@ -76,38 +73,38 @@ namespace client {
             if (m_info.reportsPosition || m_info.reportsOrientation) {
                 m_remote->register_change_handler(this,
                                                   &VRPNTrackerHandler::handle,
-                                                  m_sensor.get_value_or(-1));
+                                                  m_sensor.value_or(-1));
             }
             if (m_info.reportsLinearVelocity || m_info.reportsAngularVelocity) {
                 m_remote->register_change_handler(
                     this, &VRPNTrackerHandler::handleVel,
-                    m_sensor.get_value_or(-1));
+                    m_sensor.value_or(-1));
             }
             if (m_info.reportsLinearAcceleration ||
                 m_info.reportsAngularAcceleration) {
                 m_remote->register_change_handler(
                     this, &VRPNTrackerHandler::handleAccel,
-                    m_sensor.get_value_or(-1));
+                    m_sensor.value_or(-1));
             }
             OSVR_DEV_VERBOSE("Constructed a TrackerHandler for "
-                             << src << " sensor " << m_sensor.get_value_or(-1));
+                             << src << " sensor " << m_sensor.value_or(-1));
         }
         virtual ~VRPNTrackerHandler() {
             if (m_info.reportsPosition || m_info.reportsOrientation) {
                 m_remote->unregister_change_handler(this,
                                                     &VRPNTrackerHandler::handle,
-                                                    m_sensor.get_value_or(-1));
+                                                    m_sensor.value_or(-1));
             }
             if (m_info.reportsLinearVelocity || m_info.reportsAngularVelocity) {
                 m_remote->unregister_change_handler(
                     this, &VRPNTrackerHandler::handleVel,
-                    m_sensor.get_value_or(-1));
+                    m_sensor.value_or(-1));
             }
             if (m_info.reportsLinearAcceleration ||
                 m_info.reportsAngularAcceleration) {
                 m_remote->unregister_change_handler(
                     this, &VRPNTrackerHandler::handleAccel,
-                    m_sensor.get_value_or(-1));
+                    m_sensor.value_or(-1));
             }
         }
 
@@ -272,7 +269,7 @@ namespace client {
         RemoteHandlerInternals m_internals;
         Options m_opts;
         common::TrackerSensorInfo m_info;
-        boost::optional<int> m_sensor;
+        optional<int> m_sensor;
     };
 
     TrackerRemoteFactory::TrackerRemoteFactory(

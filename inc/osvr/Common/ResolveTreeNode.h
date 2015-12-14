@@ -29,9 +29,10 @@
 #include <osvr/Common/Export.h>
 #include <osvr/Common/PathTree_fwd.h>
 #include <osvr/Common/OriginalSource.h>
+#include <osvr/Util/StdOptionalWrapper.h>
 
 // Library/third-party includes
-#include <boost/optional.hpp>
+// - none
 
 // Standard includes
 #include <string>
@@ -39,7 +40,7 @@
 namespace osvr {
 namespace common {
 
-    OSVR_COMMON_EXPORT boost::optional<OriginalSource>
+    OSVR_COMMON_EXPORT optional<OriginalSource>
     resolveTreeNode(PathTree &pathTree, std::string const &path);
 
 } // namespace common

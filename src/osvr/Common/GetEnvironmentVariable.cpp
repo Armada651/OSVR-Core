@@ -43,14 +43,14 @@ namespace common {
     /// On Windows, only desktop apps actually have the getenv function
     /// available to them, so this implementation just always returns not
     /// defined.
-    boost::optional<std::string> getEnvironmentVariable(std::string const &) {
-        return boost::optional<std::string>();
+    optional<std::string> getEnvironmentVariable(std::string const &) {
+        return optional<std::string>();
     }
 #else
     /// A real implementation of the functionality.
-    boost::optional<std::string>
+    optional<std::string>
     getEnvironmentVariable(std::string const &var) {
-        boost::optional<std::string> ret;
+        optional<std::string> ret;
 
         auto initialRet = std::getenv(var.c_str());
         if (nullptr == initialRet) {

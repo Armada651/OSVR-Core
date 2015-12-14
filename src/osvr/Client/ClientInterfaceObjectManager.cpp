@@ -29,6 +29,7 @@
 #include <osvr/Common/PathTreeObserver.h>
 #include <osvr/Common/PathTreeOwner.h>
 #include <osvr/Common/ClientInterface.h>
+#include <osvr/Util/AssertC.h>
 #include <osvr/Util/Verbosity.h>
 #include <osvr/Common/ResolveTreeNode.h>
 
@@ -82,7 +83,7 @@ namespace client {
         m_interfaces.eraseHandlerForPath(path);
 
         auto source = common::resolveTreeNode(m_pathTree, path);
-        if (!source.is_initialized()) {
+        if (!source) {
             OSVR_DEV_VERBOSE("Could not resolve source for " << path);
             return false;
         }

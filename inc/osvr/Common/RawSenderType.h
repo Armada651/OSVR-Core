@@ -28,9 +28,10 @@
 // Internal Includes
 #include <osvr/Common/Export.h>
 #include <osvr/Util/StdInt.h>
+#include <osvr/Util/StdOptionalWrapper.h>
 
 // Library/third-party includes
-#include <boost/optional.hpp>
+// - none
 
 // Standard includes
 // - none
@@ -60,7 +61,7 @@ namespace common {
         UnderlyingSenderType getOr(UnderlyingSenderType valueIfNotSet) const;
 
       private:
-        boost::optional<UnderlyingSenderType> m_sender;
+        optional<UnderlyingSenderType> m_sender;
     };
 
 } // namespace common

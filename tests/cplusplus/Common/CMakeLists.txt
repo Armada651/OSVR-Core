@@ -22,5 +22,9 @@ add_executable(TestCommon
     "${PROJECT_SOURCE_DIR}/examples/internals/SerializationTraitExample_Complicated.h"
     ${PATHTREEJSON_SOURCES})
 
+if(NOT OSVR_HAVE_STDOPTIONAL)
+    target_link_libraries(TestCommon
+        optional)
+endif()
 target_link_libraries(TestCommon osvrCommon jsoncpp_lib)
 osvr_setup_gtest(TestCommon)

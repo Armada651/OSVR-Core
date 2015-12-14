@@ -27,9 +27,10 @@
 
 // Internal Includes
 #include <osvr/Common/Export.h>
+#include <osvr/Util/StdOptionalWrapper.h>
 
 // Library/third-party includes
-#include <boost/optional.hpp>
+// - none
 
 // Standard includes
 #include <string>
@@ -39,8 +40,8 @@ namespace common {
     /// @brief Gets an environment variable's value. On systems that don't
     /// distinguish between having a variable defined and having it non-empty
     /// (like Windows), empty will imply not defined and thus an empty
-    /// boost::optional return value.
-    OSVR_COMMON_EXPORT boost::optional<std::string>
+    /// optional return value.
+    OSVR_COMMON_EXPORT optional<std::string>
     getEnvironmentVariable(std::string const &var);
 } // namespace common
 } // namespace osvr

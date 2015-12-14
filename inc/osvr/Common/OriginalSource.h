@@ -31,9 +31,10 @@
 #include <osvr/Common/PathElementTypes_fwd.h>
 #include <osvr/Common/GeneralizedTransform.h>
 #include <osvr/Util/ChannelCountC.h>
+#include <osvr/Util/StdOptionalWrapper.h>
 
 // Library/third-party includes
-#include <boost/optional.hpp>
+// - none
 
 // Standard includes
 #include <string>
@@ -43,7 +44,7 @@ namespace common {
 
     /// @brief The result of resolving a tree node to a device: either an
     /// original source to connect to, or nothing. Typically wrapped in
-    /// boost::optional for return from functions.
+    /// optional for return from functions.
     class OriginalSource {
       public:
         OSVR_COMMON_EXPORT OriginalSource();
@@ -75,8 +76,8 @@ namespace common {
 
         PathNode *getSensor() const;
 
-        OSVR_COMMON_EXPORT boost::optional<int> getSensorNumber() const;
-        OSVR_COMMON_EXPORT boost::optional<OSVR_ChannelCount>
+        OSVR_COMMON_EXPORT optional<int> getSensorNumber() const;
+        OSVR_COMMON_EXPORT optional<OSVR_ChannelCount>
         getSensorNumberAsChannelCount() const;
 
         OSVR_COMMON_EXPORT Json::Value getTransformJson() const;
