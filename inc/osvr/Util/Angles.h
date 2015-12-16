@@ -50,7 +50,7 @@ namespace util {
 
         /// @brief Copies the value from another system.
         template<typename OtherSystem, typename OtherY>
-        AngleGeneric(const AngleGeneric<OtherSystem, OtherY>& val)
+        AngleGeneric(const AngleGeneric<OtherSystem, OtherY> &val)
             : _value((OtherY)val._value) {};
 
         Type operator+(const Type& other) const
@@ -97,7 +97,7 @@ namespace util {
         }
 
         /// @brief Outputs the value in the specified system.
-        friend std::ostream& operator<<(std::ostream & lhs, const AngleGeneric& rhs)
+        friend std::ostream& operator<<(std::ostream &lhs, const AngleGeneric &rhs)
         {
             lhs << rhs.value() << ' ' << System::symbol();
             return lhs;
