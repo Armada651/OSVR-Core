@@ -30,6 +30,7 @@
 #include <osvr/Common/PathElementTools.h>
 #include <osvr/Common/OriginalSource.h>
 #include <osvr/Common/ParseAlias.h>
+#include <osvr/Util/AssertC.h>
 #include <osvr/Util/Verbosity.h>
 
 // Library/third-party includes
@@ -106,7 +107,7 @@ namespace common {
         void operator()(elements::SensorElement const &) {
             /// This is the end of the traversal: landed on a sensor.
             m_decompose();
-            BOOST_ASSERT_MSG(m_source.isResolved(),
+            OSVR_ASSERT_MSG(m_source.isResolved(),
                              "Landing on a sensor means we should have an "
                              "interface and device, exceptions would be thrown "
                              "in Decompose otherwise.");
@@ -116,7 +117,7 @@ namespace common {
         void operator()(elements::InterfaceElement const &) {
             /// This is the end of the traversal: landed on a interface.
             m_decompose();
-            BOOST_ASSERT_MSG(m_source.isResolved(),
+            OSVR_ASSERT_MSG(m_source.isResolved(),
                              "Landing on an interface means we should have an "
                              "interface and device, exceptions would be thrown "
                              "in Decompose otherwise.");

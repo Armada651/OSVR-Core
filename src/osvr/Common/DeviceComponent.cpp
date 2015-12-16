@@ -25,9 +25,10 @@
 // Internal Includes
 #include <osvr/Common/DeviceComponent.h>
 #include <osvr/Common/BaseDevice.h>
+#include <osvr/Util/AssertC.h>
 
 // Library/third-party includes
-#include <boost/assert.hpp>
+// - none
 
 // Standard includes
 // - none
@@ -37,7 +38,7 @@ namespace common {
     DeviceComponent::DeviceComponent() : m_parent(nullptr) {}
 
     void DeviceComponent::recordParent(Parent &dev) {
-        BOOST_ASSERT_MSG(nullptr == m_parent,
+        OSVR_ASSERT_MSG(nullptr == m_parent,
                          "recordParent should only be called once!");
         m_parent = &dev;
         m_parentSet();

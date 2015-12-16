@@ -28,9 +28,10 @@
 // Internal Includes
 #include <osvr/Common/OriginalSource.h>
 #include <osvr/Common/PathElementTypes.h>
+#include <osvr/Util/AssertC.h>
 
 // Library/third-party includes
-#include <boost/assert.hpp>
+// - none
 
 // Standard includes
 // - none
@@ -51,11 +52,11 @@ namespace common {
     /// subsets thereof it reports.
     inline TrackerSensorInfo
     getTrackerSensorInfo(OriginalSource const &source) {
-        BOOST_ASSERT_MSG(
+        OSVR_ASSERT_MSG(
             source.isResolved(),
             "Can't pass an unresolved source to getTrackerSensorInfo!");
 
-        BOOST_ASSERT_MSG(
+        OSVR_ASSERT_MSG(
             source.getInterfaceName() == "tracker",
             "Can't pass a non-tracker source to getTrackerSensorInfo!");
 

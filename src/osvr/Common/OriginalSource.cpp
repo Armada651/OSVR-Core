@@ -27,6 +27,7 @@
 #include <osvr/Common/PathNode.h>
 #include <osvr/Common/ApplyPathNodeVisitor.h>
 #include <osvr/Common/RoutingExceptions.h>
+#include <osvr/Util/AssertC.h>
 
 // Library/third-party includes
 #include <boost/variant/static_visitor.hpp>
@@ -48,19 +49,19 @@ namespace common {
     }
 
     void OriginalSource::setDevice(common::PathNode &device) {
-        BOOST_ASSERT_MSG(m_device == nullptr,
+        OSVR_ASSERT_MSG(m_device == nullptr,
                          "Device should only be set once.");
         m_device = &device;
     }
 
     void OriginalSource::setInterface(common::PathNode &iface) {
-        BOOST_ASSERT_MSG(m_interface == nullptr,
+        OSVR_ASSERT_MSG(m_interface == nullptr,
                          "Interface should only be set once.");
         m_interface = &iface;
     }
 
     void OriginalSource::setSensor(common::PathNode &sensor) {
-        BOOST_ASSERT_MSG(m_sensor == nullptr,
+        OSVR_ASSERT_MSG(m_sensor == nullptr,
                          "Sensor should only be set once.");
         m_sensor = &sensor;
     }
@@ -70,7 +71,7 @@ namespace common {
     }
 
     std::string OriginalSource::getDevicePath() const {
-        BOOST_ASSERT_MSG(isResolved(),
+        OSVR_ASSERT_MSG(isResolved(),
                          "Only makes sense when called on a resolved source.");
         return getFullPath(*getDevice());
     }
@@ -79,7 +80,7 @@ namespace common {
 
     common::elements::DeviceElement const &
     OriginalSource::getDeviceElement() const {
-        BOOST_ASSERT_MSG(isResolved(),
+        OSVR_ASSERT_MSG(isResolved(),
                          "Only makes sense when called on a resolved source.");
         return boost::get<common::elements::DeviceElement>(m_device->value());
     }
@@ -89,7 +90,7 @@ namespace common {
     }
 
     std::string OriginalSource::getInterfaceName() const {
-        BOOST_ASSERT_MSG(isResolved(),
+        OSVR_ASSERT_MSG(isResolved(),
                          "Only makes sense when called on a resolved source.");
         std::string ret;
         if (nullptr == m_interface) {
@@ -104,7 +105,7 @@ namespace common {
     template <typename T>
     inline optional<T>
     getSensorNumberHelper(OriginalSource const &self) {
-        BOOST_ASSERT_MSG(self.isResolved(),
+        OSVR_ASSERT_MSG(self.isResolved(),
                          "Only makes sense when called on a resolved source.");
         optional<T> ret;
         if (nullptr == self.getSensor()) {
@@ -129,19 +130,19 @@ namespace common {
     }
 
     Json::Value OriginalSource::getTransformJson() const {
-        BOOST_ASSERT_MSG(isResolved(),
+        OSVR_ASSERT_MSG(isResolved(),
                          "Only makes sense when called on a resolved source.");
         return m_transform.get(m_getPath());
     }
 
     bool OriginalSource::hasTransform() const {
-        BOOST_ASSERT_MSG(isResolved(),
+        OSVR_ASSERT_MSG(isResolved(),
                          "Only makes sense when called on a resolved source.");
         return !m_transform.empty();
     }
 
     std::string OriginalSource::m_getPath() const {
-        BOOST_ASSERT_MSG(isResolved(),
+        OSVR_ASSERT_MSG(isResolved(),
                          "Only makes sense when called on a resolved source.");
         PathNode *node = getSensor();
         if (!node) {

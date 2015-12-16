@@ -26,6 +26,7 @@
 #define INCLUDED_JSONEigen_h_GUID_A8A98FBE_0A98_4C83_9A13_D022330FE13E
 
 // Internal Includes
+#include <osvr/Util/AssertC.h>
 #include <osvr/Util/EigenCoreGeometry.h>
 
 // Library/third-party includes
@@ -33,7 +34,6 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/range/algorithm/count_if.hpp>
-#include <boost/assert.hpp>
 
 // Standard includes
 #include <stdexcept>
@@ -111,7 +111,7 @@ namespace common {
                 }
             }
 
-            BOOST_ASSERT_MSG(false, "Should never reach here!");
+            OSVR_ASSERT_MSG(false, "Should never reach here!");
         }
     } // namespace detail
 

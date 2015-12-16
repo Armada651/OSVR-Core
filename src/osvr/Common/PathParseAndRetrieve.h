@@ -28,10 +28,10 @@
 // Internal Includes
 #include <osvr/Common/RoutingConstants.h>
 #include <osvr/Common/RoutingExceptions.h>
+#include <osvr/Util/AssertC.h>
 #include <osvr/Util/TreeNode.h>
 
 // Library/third-party includes
-#include <boost/assert.hpp>
 #include <boost/algorithm/string/find_iterator.hpp>
 #include <boost/algorithm/string/finder.hpp>
 #include <boost/range/adaptor/sliced.hpp>
@@ -200,7 +200,7 @@ namespace common {
     inline util::TreeNode<ValueType> &
     pathParseAndRetrieve(util::TreeNode<ValueType> &root,
                          std::string const &path) {
-        BOOST_ASSERT_MSG(root.isRoot(), "Must pass the root node!");
+        OSVR_ASSERT_MSG(root.isRoot(), "Must pass the root node!");
         if (path.empty()) {
             throw exceptions::EmptyPath();
         }
@@ -219,7 +219,7 @@ namespace common {
     inline util::TreeNode<ValueType> const &
     pathParseAndRetrieve(util::TreeNode<ValueType> const &root,
                          std::string const &path) {
-        BOOST_ASSERT_MSG(root.isRoot(), "Must pass the root node!");
+        OSVR_ASSERT_MSG(root.isRoot(), "Must pass the root node!");
         if (path.empty()) {
             throw exceptions::EmptyPath();
         }

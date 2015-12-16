@@ -29,6 +29,7 @@
 #include <osvr/Common/Transform.h>
 #include <osvr/Common/ChangeOfBasis.h>
 #include <osvr/Common/DegreesToRadians.h>
+#include <osvr/Util/AssertC.h>
 #include <osvr/Util/StdInt.h>
 
 // Library/third-party includes
@@ -74,7 +75,7 @@ namespace common {
                     return ret;
                 }
             }
-            BOOST_ASSERT_MSG(false, "Should never reach here!");
+            OSVR_ASSERT_MSG(false, "Should never reach here!");
         }
         if (v.isArray()) {
             if (v.size() != T::RowsAtCompileTime) {

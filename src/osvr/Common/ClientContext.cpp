@@ -25,11 +25,12 @@
 // Internal Includes
 #include <osvr/Common/ClientContext.h>
 #include <osvr/Common/ClientInterface.h>
+#include <osvr/Util/AssertC.h>
 #include <osvr/Util/Verbosity.h>
 #include "GetJSONStringFromTree.h"
 
 // Library/third-party includes
-#include <boost/assert.hpp>
+// - none
 
 // Standard includes
 #include <algorithm>
@@ -101,7 +102,7 @@ OSVR_ClientContextObject::releaseInterface(ClientInterface *iface) {
                                }
                                return false;
                            });
-    BOOST_ASSERT_MSG(
+    OSVR_ASSERT_MSG(
         (it == end(m_interfaces)) == (!ret),
         "We should have a pointer if and only if we have the iterator");
     if (ret) {
