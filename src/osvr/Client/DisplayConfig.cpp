@@ -119,7 +119,7 @@ namespace client {
             }
 
             /// Compute angular offset about Y of the optical (view) axis
-            util::Angle axisOffset = 0. * util::radians;
+            util::Angle axisOffset = util::AngleRadiansd(0.);
             {
                 auto overlapPct = desc.getOverlapPercent();
 

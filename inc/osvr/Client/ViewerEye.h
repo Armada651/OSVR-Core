@@ -130,7 +130,7 @@ namespace client {
             bool rot180, double pitchTilt,
             optional<OSVR_RadialDistortionParameters> radDistortParams,
             OSVR_DisplayInputCount displayInputIdx,
-            util::Angle opticalAxisOffsetY = 0. * util::radians);
+            util::Angle opticalAxisOffsetY = util::AngleRadiansd(0.));
         util::Rectd m_getRect(double near, double far) const;
         Eigen::Isometry3d getPoseIsometry() const;
         InternalInterfaceOwner m_pose;

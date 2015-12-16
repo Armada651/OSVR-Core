@@ -29,32 +29,100 @@
 // - none
 
 // Library/third-party includes
-#include <boost/units/quantity.hpp>
-#include <boost/units/systems/si/plane_angle.hpp>
-#include <boost/units/systems/angle/degrees.hpp>
+// - none
 
 // Standard includes
-// - none
+#include <ostream>
+
 namespace osvr {
 namespace util {
-    using boost::units::si::radians;
-    using boost::units::degree::degrees;
-
-    /// @brief Convenience template alias for a plane_angle quantity in an
+    /// @brief Convenience template class for an angle quantity in an
     /// arbitrary system with arbitrary scalar
     template <typename System, typename Y = double>
-    using AngleGeneric = boost::units::quantity<
-        boost::units::unit<boost::units::plane_angle_dimension, System>, Y>;
+    struct AngleGeneric
+    {
+        using Type = AngleGeneric<System, Y>;
+        Y _value;
+
+        /// @brief Converts from the specified system to the generic system.
+        AngleGeneric(Y val) : _value(val * System::factor()) {};
+        AngleGeneric() { _value={}; };
+
+        /// @brief Copies the value from another system.
+        template<typename OtherSystem, typename OtherY>
+        AngleGeneric(const AngleGeneric<OtherSystem, OtherY>& val)
+            : _value((OtherY)val._value) {};
+
+        Type operator+(const Type& other) const
+        {
+            Type result;
+            result._value = _value + other._value;
+            return result;
+        }
+
+        Type operator-(const Type& other) const
+        {
+            Type result;
+            result._value = _value - other._value;
+            return result;
+        }
+
+        Type operator*(const Type& other) const
+        {
+            Type result;
+            result._value = _value * other._value;
+            return result;
+        }
+
+        Type operator/(const Type& other) const
+        {
+            Type result;
+            result._value = _value / other._value;
+            return result;
+        }
+
+        /// @brief Casts the value from another system.
+        template<typename OtherSystem, typename OtherY>
+        operator AngleGeneric<OtherSystem, OtherY>()
+        {
+            AngleGeneric<OtherSystem, OtherY> result;
+            result._value = (OtherY)_value;
+            return result;
+        }
+
+        /// @brief Converts from the generic system to the specified system.
+        Y value() const
+        {
+            return _value / System::factor();
+        }
+
+        /// @brief Outputs the value in the specified system.
+        friend std::ostream& operator<<(std::ostream & lhs, const AngleGeneric& rhs)
+        {
+            lhs << rhs.value() << ' ' << System::symbol();
+            return lhs;
+        }
+    };
 
     /// @brief Alias for an angle in radians with arbitrary scalar type
+    struct radians
+    {
+        static std::string name()   { return("radian"); }
+        static std::string symbol() { return("rad"); }
+        static double      factor() { return(1.0); }
+    };
     template <typename Y>
-    using AngleRadians =
-        boost::units::quantity<boost::units::si::plane_angle, Y>;
+    using AngleRadians = AngleGeneric<radians, Y>;
 
     /// @brief Alias for an angle in degrees with arbitrary scalar type
+    struct degrees
+    {
+        static std::string name()   { return("degree"); }
+        static std::string symbol() { return("deg"); }
+        static double      factor() { return(6.28318530718/360.0); }
+    };
     template <typename Y>
-    using AngleDegrees =
-        boost::units::quantity<boost::units::degree::plane_angle, Y>;
+    using AngleDegrees = AngleGeneric<degrees, Y>;
 
     typedef AngleRadians<double> AngleRadiansd;
     typedef AngleDegrees<double> AngleDegreesd;

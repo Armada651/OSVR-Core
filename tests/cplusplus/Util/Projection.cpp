@@ -34,7 +34,7 @@
 // Standard includes
 // - none
 
-using osvr::util::degrees;
+using osvr::util::AngleDegreesd;
 using osvr::util::computeSymmetricFOVRect;
 
 typedef std::vector<double> BoundsList;
@@ -67,7 +67,7 @@ class ParameterizedProjectionTest : public ::testing::Test {
         std::cout << "Near: " << near << "\tFar: " << far << "\n";
     }
     osvr::util::Rectd computeSymmetricRect() const {
-        return computeSymmetricFOVRect(50. * degrees, 40. * degrees, near);
+        return computeSymmetricFOVRect(AngleDegreesd(50.), AngleDegreesd(40.), near);
     }
 
     inline void tryProjection(osvr::util::Rectd const &rect) {
@@ -135,7 +135,7 @@ TEST(ParameterizedProjectionTest, MatchesUnparameterized) {
     namespace opts = osvr::util::projection_options;
     double near = 0.1;
     double far = 100;
-    auto rect = computeSymmetricFOVRect(50. * degrees, 40. * degrees, near);
+    auto rect = computeSymmetricFOVRect(AngleDegreesd(50.), AngleDegreesd(40.), near);
     auto paramMat = parameterizedCreateProjectionMatrix<opts::RightHandedInput |
                                                         opts::ZOutputSigned>(
         rect, near, far);

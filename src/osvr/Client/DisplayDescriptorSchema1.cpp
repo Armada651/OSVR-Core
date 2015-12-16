@@ -55,14 +55,14 @@ namespace client {
             {
                 auto const &fov = hmd["field_of_view"];
                 // Field of view
-                m_monocularHorizontalFOV = util::Angle(
-                    fov["monocular_horizontal"].asDouble() * util::degrees);
-                m_monocularVerticalFOV = util::Angle(
-                    fov["monocular_vertical"].asDouble() * util::degrees);
+                m_monocularHorizontalFOV = util::Angle(util::AngleDegreesd(
+                    fov["monocular_horizontal"].asDouble()));
+                m_monocularVerticalFOV = util::Angle(util::AngleDegreesd(
+                    fov["monocular_vertical"].asDouble()));
                 m_overlapPercent =
                     fov.get("overlap_percent", 100).asDouble() / 100.0;
-                m_pitchTilt = util::Angle(fov.get("pitch_tilt", 0).asDouble() *
-                                          util::degrees);
+                m_pitchTilt = util::Angle(util::AngleDegreesd(
+                    fov.get("pitch_tilt", 0).asDouble()));
             }
             {
                 auto const &devprops = hmd["device"];
