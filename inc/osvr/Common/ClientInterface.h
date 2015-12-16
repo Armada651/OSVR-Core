@@ -38,21 +38,26 @@
 #include <osvr/Util/ClientCallbackTypesC.h>
 
 // Library/third-party includes
-#include <boost/noncopyable.hpp>
-#include <boost/any.hpp>
+// - none
 
 // Standard includes
 #include <string>
 #include <vector>
 #include <functional>
 
-struct OSVR_ClientInterfaceObject : boost::noncopyable {
+struct OSVR_ClientInterfaceObject {
 
   protected:
     /// @brief Constructor - only to be called by a factory function.
     OSVR_COMMON_EXPORT
     OSVR_ClientInterfaceObject(osvr::common::ClientContext &ctx,
                                std::string const &path);
+
+    /// @brief Explicitly forbid copying of this object.
+    OSVR_ClientInterfaceObject( const OSVR_ClientInterfaceObject& ) = delete;
+
+    /// @brief Explicitly forbid copying of this object.
+    OSVR_ClientInterfaceObject& operator=( const OSVR_ClientInterfaceObject& ) = delete;
 
   public:
     ~OSVR_ClientInterfaceObject() {
@@ -126,14 +131,14 @@ struct OSVR_ClientInterfaceObject : boost::noncopyable {
     osvr::common::ClientContext &getContext() const { return m_ctx; }
 
     /// @brief Access the type-erased data for this interface.
-    boost::any &data() { return m_data; }
+    void *data() { return m_data; }
 
   private:
     osvr::common::ClientContext &m_ctx;
     std::string const m_path;
     osvr::common::InterfaceCallbacks m_callbacks;
     osvr::common::InterfaceState m_state;
-    boost::any m_data;
+    void *m_data;
 };
 
 #endif // INCLUDED_ClientInterface_h_GUID_A3A55368_DE2F_4980_BAE9_1C398B0D40A1
