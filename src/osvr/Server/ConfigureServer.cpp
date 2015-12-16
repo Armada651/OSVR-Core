@@ -34,7 +34,6 @@
 #include <json/value.h>
 #include <json/reader.h>
 #include <boost/optional.hpp>
-#include <boost/lexical_cast.hpp>
 #include <boost/filesystem.hpp>                 // for stem()
 #include <boost/algorithm/string/predicate.hpp> // for iends_with()
 
@@ -171,7 +170,7 @@ namespace server {
             if (!plugins[i].isString()) {
                 success = false;
                 m_failedPlugins.push_back(std::make_pair(
-                    "Plugin entry " + boost::lexical_cast<std::string>(i),
+                    "Plugin entry " + std::to_string(i),
                     "Plugin name not string: " + plugins[i].toStyledString()));
                 // skip it!
                 continue;

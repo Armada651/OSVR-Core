@@ -31,7 +31,6 @@
 
 // Library/third-party includes
 #include <json/value.h>
-#include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/range/algorithm/count_if.hpp>
 
@@ -168,14 +167,14 @@ namespace common {
                 throw std::runtime_error(
                     "Could not parse a " OSVR_PARSE_NAME
                     " from the scalar value " +
-                    boost::lexical_cast<std::string>(json.asDouble()));
+                    std::to_string(json.asDouble()));
             }
         } else if (json.isArray()) {
             if (json.size() != type::RowsAtCompileTime) {
                 throw std::runtime_error(
                     "Could not parse a " OSVR_PARSE_NAME
                     " from an array with " +
-                    boost::lexical_cast<std::string>(json.size()) +
+                    std::to_string(json.size()) +
                     " elements");
             }
             ret = type(json[0].asDouble(), json[1].asDouble(),

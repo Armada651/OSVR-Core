@@ -35,7 +35,6 @@
 
 // Library/third-party includes
 #include <boost/variant.hpp>
-#include <boost/lexical_cast.hpp>
 #include <json/value.h>
 #include <json/reader.h>
 

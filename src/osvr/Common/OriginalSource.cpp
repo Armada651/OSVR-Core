@@ -33,7 +33,6 @@
 #include <boost/variant/static_visitor.hpp>
 #include <boost/variant/apply_visitor.hpp>
 #include <boost/variant/get.hpp>
-#include <boost/lexical_cast.hpp>
 
 // Standard includes
 #include <string>
@@ -112,9 +111,9 @@ namespace common {
             return ret;
         }
         try {
-            ret = boost::lexical_cast<T>(self.getSensor()->getName());
-        } catch (boost::bad_lexical_cast &) {
-            // Just means we can't convert to the type, so returning an empty
+            ret = std::stoi(self.getSensor()->getName());
+        } catch (std::invalid_argument &) {
+            // Just means we can't convert to an integer, so returning an empty
             // optional is fine.
         }
         return ret;
