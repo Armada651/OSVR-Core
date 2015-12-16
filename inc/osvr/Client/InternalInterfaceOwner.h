@@ -28,10 +28,11 @@
 // Internal Includes
 #include <osvr/Common/ClientContext.h>
 #include <osvr/Common/ClientInterfacePtr.h>
+#include <osvr/Util/AssertC.h>
 #include <osvr/Util/ClientOpaqueTypesC.h>
 
 // Library/third-party includes
-#include <boost/assert.hpp>
+// - none
 
 // Standard includes
 #include <utility>
@@ -118,7 +119,7 @@ namespace client {
         void m_reset() {
             if (m_ctx && m_iface) {
                 auto oldIface = m_ctx->releaseInterface(m_iface);
-                BOOST_ASSERT_MSG(oldIface, "We should never be the last one "
+                OSVR_ASSERT_MSG(oldIface, "We should never be the last one "
                                            "holding a reference to this "
                                            "interface!");
                 m_ctx = nullptr;
@@ -129,10 +130,10 @@ namespace client {
         }
 
         void m_checkInvariants() const {
-            BOOST_ASSERT_MSG(
+            OSVR_ASSERT_MSG(
                 (!m_iface || (m_iface && m_ctx)),
                 "If we have an interface, we must have a context.");
-            BOOST_ASSERT_MSG(!m_owningIface || (m_owningIface.get() == m_iface),
+            OSVR_ASSERT_MSG(!m_owningIface || (m_owningIface.get() == m_iface),
                              "Either owningIface should be empty or the same "
                              "as our raw pointer.");
         }

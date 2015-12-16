@@ -25,6 +25,7 @@
 // Internal Includes
 #include <osvr/ClientKit/DisplayC.h>
 #include <osvr/ClientKit/InterfaceC.h>
+#include <osvr/Util/AssertC.h>
 #include <osvr/Util/Verbosity.h>
 #include <osvr/Common/ClientContext.h>
 #include <osvr/Client/DisplayConfig.h>
@@ -35,7 +36,7 @@
 #include <osvr/Util/MatrixEigenAssign.h>
 
 // Library/third-party includes
-#include <boost/assert.hpp>
+// - none
 
 // Standard includes
 #include <utility>
@@ -107,24 +108,24 @@ OSVR_ReturnCode osvrClientGetDisplay(OSVR_ClientContext ctx,
 /// @todo actually check the config for number of viewers
 /// (viewer < disp->cfg->size())
 #define OSVR_VALIDATE_VIEWER_ID                                                \
-    BOOST_ASSERT_MSG(viewer == 0, "Must pass a valid viewer ID.")
+    OSVR_ASSERT_MSG(viewer == 0, "Must pass a valid viewer ID.")
 
 #define OSVR_VALIDATE_EYE_ID                                                   \
-    BOOST_ASSERT_MSG(eye < disp->cfg->getNumViewerEyes(viewer),                \
+    OSVR_ASSERT_MSG(eye < disp->cfg->getNumViewerEyes(viewer),                \
                      "Must pass a valid eye ID.")
 
 /// @todo actually check the config for number of surfaces
 #define OSVR_VALIDATE_SURFACE_ID                                               \
-    BOOST_ASSERT_MSG(surface == 0, "Must pass a valid surface ID.")
+    OSVR_ASSERT_MSG(surface == 0, "Must pass a valid surface ID.")
 
 #define OSVR_VALIDATE_DISPLAY_INPUT_ID                                         \
-    BOOST_ASSERT_MSG(displayInputIndex < disp->cfg->getNumDisplayInputs(),     \
+    OSVR_ASSERT_MSG(displayInputIndex < disp->cfg->getNumDisplayInputs(),     \
                      "Must pass a valid display input index.")
 
 OSVR_ReturnCode osvrClientFreeDisplay(OSVR_DisplayConfig disp) {
     OSVR_VALIDATE_DISPLAY_CONFIG;
     OSVR_ClientContext ctx = disp->ctx;
-    BOOST_ASSERT_MSG(
+    OSVR_ASSERT_MSG(
         ctx != nullptr,
         "Should never get a display config object with a null context in it.");
     if (nullptr == ctx) {

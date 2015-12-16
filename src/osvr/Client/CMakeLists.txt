@@ -71,10 +71,6 @@ if(NOT OSVR_HAVE_STDOPTIONAL)
         optional)
 endif()
 
-target_include_directories(${LIBNAME_FULL}
-    PUBLIC
-    ${Boost_INCLUDE_DIRS})
-
 target_link_libraries(${LIBNAME_FULL}
     PRIVATE
     osvrUtilCpp

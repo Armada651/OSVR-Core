@@ -42,10 +42,6 @@
 #include <osvr/Common/InterfaceState.h>
 
 // Library/third-party includes
-#include <boost/lexical_cast.hpp>
-#include <boost/any.hpp>
-#include <boost/variant/get.hpp>
-#include <boost/lexical_cast.hpp>
 #include <json/value.h>
 #include <json/reader.h>
 
@@ -216,14 +212,12 @@ namespace client {
             opts.reportDirection = true;
             const std::string iface = devicePath + "/direction";
             /// @todo need to append sensor number here!
-            // boost::lexical_cast<std::string>(source.getSensorNumberAsChannelCount())
             opts.dirIface = ctx.getInterface(iface.c_str());
         }
         if (myDescriptor["interfaces"]["eyetracker"].isMember("tracker")) {
             opts.reportBasePoint = true;
             const std::string iface = devicePath + "/tracker/";
             /// @todo need to append sensor number here!
-            // boost::lexical_cast<std::string>(source.getSensorNumberAsChannelCount())
             opts.trackerIface = ctx.getInterface(iface.c_str());
         }
 
@@ -231,14 +225,12 @@ namespace client {
             opts.reportLocation2D = true;
             const std::string iface = devicePath + "/location2D/";
             /// @todo need to append sensor number here!
-            // boost::lexical_cast<std::string>(source.getSensorNumberAsChannelCount())
             opts.locationIface = ctx.getInterface(iface.c_str());
         }
         if (myDescriptor["interfaces"]["eyetracker"].isMember("button")) {
             opts.reportBlink = true;
             const std::string iface = devicePath + "/button/";
             /// @todo need to append sensor number here!
-            // boost::lexical_cast<std::string>(source.getSensorNumberAsChannelCount())
             opts.buttonIface = ctx.getInterface(iface.c_str());
         }
 
