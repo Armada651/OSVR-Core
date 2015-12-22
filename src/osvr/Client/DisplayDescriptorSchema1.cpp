@@ -25,11 +25,11 @@
 // Internal Includes
 #include "DisplayDescriptorSchema1.h"
 #include <osvr/Common/JSONHelpers.h>
+#include <osvr/Util/AssertC.h>
 #include <osvr/Util/Verbosity.h>
 
 // Library/third-party includes
-#include <boost/units/io.hpp>
-#include <boost/assert.hpp>
+// - none
 
 // Standard includes
 #include <sstream>
@@ -239,7 +239,7 @@ namespace client {
             }
             // OK, so two eyes now.
             if (activeResolution().display_mode == DisplayMode::FULL_SCREEN) {
-                BOOST_ASSERT(activeResolution().video_inputs == 2);
+                OSVR_ASSERT(activeResolution().video_inputs == 2);
                 return 2;
             }
             return 1;
